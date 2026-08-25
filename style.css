@@ -4,47 +4,79 @@
     --card: #FFFFFF;
     --text: #1C1C1E;
     --secondary: #8E8E93;
+    --border: #E5E5EA;
+    --danger: #FF3B30;
+    --success: #34C759;
 }
-
+/* =========================
+   DARK MODE
+========================= */
+body.dark {
+    --background: #000000;
+    --card: #1C1C1E;
+    --text: #F5F5F7;
+    --secondary: #98989D;
+    --border: #38383A;
+}
+/* =========================
+   RESET
+========================= */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "Segoe UI",
+        sans-serif;
     background: var(--background);
     color: var(--text);
+    min-height: 100vh;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease;
 }
-
+button,
+input {
+    font-family: inherit;
+}
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+/* =========================
+   APP
+========================= */
 .app {
     width: 100%;
     max-width: 600px;
     margin: auto;
-    padding: 25px 18px;
+    padding:
+        25px
+        18px
+        35px;
 }
-
-
-/* Header */
-
+/* =========================
+   HEADER
+========================= */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
 }
-
 .welcome {
     color: var(--secondary);
     font-size: 15px;
     margin-bottom: 5px;
 }
-
 .header h1 {
     font-size: 32px;
+    letter-spacing: -1px;
 }
-
 .profile-btn {
     width: 45px;
     height: 45px;
@@ -52,272 +84,406 @@ body {
     border-radius: 50%;
     background: var(--primary);
     color: white;
-    font-size: 18px;
+    font-size: 17px;
+    font-weight: 600;
     cursor: pointer;
+    transition: transform 0.15s ease;
 }
-
-
-/* Add */
-
+.profile-btn:active {
+    transform: scale(0.9);
+}
+/* =========================
+   ADD TASK
+========================= */
 .add-task {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
 }
-
 #taskInput {
     flex: 1;
+    min-width: 0;
     border: none;
     outline: none;
     background: var(--card);
+    color: var(--text);
     padding: 16px;
     border-radius: 16px;
     font-size: 15px;
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.04);
 }
-
-#addBtn {
+#taskInput::placeholder {
+    color: var(--secondary);
+}
+.add-btn {
     width: 52px;
     height: 52px;
+    flex-shrink: 0;
     border: none;
     border-radius: 16px;
     background: var(--primary);
     color: white;
     font-size: 30px;
     cursor: pointer;
+    transition: transform 0.15s ease;
 }
-
-
-/* Tasks */
-
+.add-btn:active {
+    transform: scale(0.9);
+}
+/* =========================
+   TASK LIST
+========================= */
 #taskList {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-
+/* =========================
+   SWIPE CONTAINER
+========================= */
+.swipe-container {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+}
+/* Background */
+.swipe-background {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+.swipe-complete {
+    background: var(--success);
+}
+.swipe-delete {
+    background: var(--danger);
+}
+/* =========================
+   TASK
+========================= */
 .task {
+    position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
     gap: 12px;
-
+    width: 100%;
     background: var(--card);
+    color: var(--text);
     padding: 15px;
-
-    border-radius: 17px;
-
-    transition: 0.2s;
-
+    border-radius: 18px;
+    box-shadow:
+        0 3px 12px rgba(0,0,0,0.04);
+    transition:
+        transform 0.18s ease;
     touch-action: pan-y;
+    user-select: none;
 }
-
-.check {
-    width: 25px;
-    height: 25px;
-
-    flex-shrink: 0;
-
-    border-radius: 50%;
-    border: 2px solid var(--primary);
-
-    background: transparent;
-
-    color: white;
-
-    cursor: pointer;
-}
-
-.task.completed .check {
-    background: var(--primary);
-}
-
-.task.completed p {
-    text-decoration: line-through;
-    color: var(--secondary);
-}
-
 .task-content {
     flex: 1;
+    min-width: 0;
 }
-
 .task-content p {
     font-size: 16px;
+    font-weight: 500;
+    word-break: break-word;
 }
-
 .task-content span {
     display: block;
     color: var(--secondary);
     font-size: 12px;
     margin-top: 4px;
 }
-
-.actions {
-    display: flex;
-    gap: 5px;
-}
-
-.actions button {
-    border: none;
+/* =========================
+   CHECK
+========================= */
+.check {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
     background: transparent;
-    font-size: 18px;
+    color: white;
     cursor: pointer;
-}
-
-.edit {
-    color: var(--primary);
-}
-
-.delete {
-    color: #FF3B30;
-}
-
-
-/* Empty */
-
-.empty {
-    text-align: center;
-    color: var(--secondary);
-    padding: 50px 20px;
-}
-
-.empty div {
-    width: 60px;
-    height: 60px;
-
-    margin: auto auto 15px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
+    font-size: 15px;
+    transition:
+        background 0.2s ease,
+        transform 0.15s ease;
+}
+.check:active {
+    transform: scale(0.88);
+}
+.task.completed .check {
+    background: var(--primary);
+}
+.task.completed .task-content p {
+    text-decoration: line-through;
+    color: var(--secondary);
+}
+.task.completed {
+    opacity: 0.72;
+}
+/* =========================
+   ACTIONS
+========================= */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.actions button {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.actions button:active {
+    background: rgba(128,128,128,0.15);
+}
+.edit {
+    color: var(--primary);
+}
+.delete {
+    color: var(--danger);
+}
+/* SVG ICON */
+.edit svg,
+.delete svg {
+    width: 19px;
+    height: 19px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+/* =========================
+   EMPTY STATE
+========================= */
+.empty {
+    text-align: center;
+    color: var(--secondary);
+    padding: 55px 20px;
+}
+.empty-icon {
+    width: 60px;
+    height: 60px;
+    margin:
+        auto
+        auto
+        15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--primary);
     color: white;
-
     border-radius: 50%;
-
     font-size: 25px;
 }
-
 .empty h2 {
     color: var(--text);
     margin-bottom: 5px;
 }
-
-
-/* Footer */
-
+.empty p {
+    font-size: 14px;
+}
+/* =========================
+   FOOTER
+========================= */
 footer {
     text-align: center;
     color: var(--secondary);
     font-size: 13px;
     margin-top: 25px;
 }
-
-
-/* Modal */
-
+/* =========================
+   MODAL
+========================= */
 .modal {
     position: fixed;
     inset: 0;
-
-    background: rgba(0,0,0,0.4);
-
+    background:
+        rgba(0,0,0,0.45);
     display: flex;
     align-items: flex-end;
     justify-content: center;
-
     padding: 15px;
-
-    z-index: 10;
+    z-index: 100;
 }
-
 .hidden {
     display: none;
 }
-
 .modal-box {
     width: 100%;
     max-width: 500px;
-
     background: var(--card);
-
-    border-radius: 25px;
-
+    color: var(--text);
+    border-radius:
+        26px
+        26px
+        18px
+        18px;
     padding: 25px;
-
     position: relative;
+    box-shadow:
+        0 -5px 30px rgba(0,0,0,0.15);
 }
-
 .close {
     position: absolute;
     right: 18px;
     top: 12px;
-
+    width: 35px;
+    height: 35px;
     border: none;
-    background: none;
-
-    font-size: 28px;
-
+    border-radius: 50%;
+    background: transparent;
     color: var(--secondary);
+    font-size: 28px;
+    cursor: pointer;
 }
-
 .modal-box h2 {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
-
+.modal-box label {
+    display: block;
+    color: var(--secondary);
+    font-size: 13px;
+    margin-bottom: 7px;
+}
 #nameInput {
     width: 100%;
-
     padding: 14px;
-
-    border: 1px solid #ddd;
-
-    border-radius: 12px;
-
+    border:
+        1px solid
+        var(--border);
+    border-radius: 13px;
     outline: none;
-
+    background: var(--background);
+    color: var(--text);
     font-size: 15px;
-
     margin-bottom: 25px;
 }
-
 .modal-box h3 {
     font-size: 15px;
-    margin-bottom: 12px;
+    margin-bottom: 13px;
 }
-
+/* =========================
+   COLORS
+========================= */
 .colors {
     display: flex;
     gap: 12px;
     margin-bottom: 25px;
 }
-
 .color {
     width: 34px;
     height: 34px;
-
     border-radius: 50%;
-
-    border: 3px solid white;
-
+    border:
+        3px solid
+        var(--card);
     cursor: pointer;
 }
-
 .color.selected {
-    outline: 2px solid var(--text);
+    outline:
+        2px solid
+        var(--text);
+    outline-offset: 2px;
 }
-
+/* =========================
+   DARK MODE TOGGLE
+========================= */
+.theme-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:
+        15px
+        0;
+    border-top:
+        1px solid
+        var(--border);
+    border-bottom:
+        1px solid
+        var(--border);
+    margin-bottom: 22px;
+}
+.theme-row strong {
+    display: block;
+    font-size: 15px;
+}
+.theme-row span {
+    display: block;
+    color: var(--secondary);
+    font-size: 12px;
+    margin-top: 3px;
+}
+.toggle {
+    width: 51px;
+    height: 31px;
+    border: none;
+    border-radius: 20px;
+    background: #787880;
+    padding: 3px;
+    cursor: pointer;
+    transition:
+        background 0.2s ease;
+}
+.toggle span {
+    display: block;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: white;
+    margin: 0;
+    transition:
+        transform 0.2s ease;
+}
+.toggle.active {
+    background: var(--primary);
+}
+.toggle.active span {
+    transform:
+        translateX(20px);
+}
+/* =========================
+   SAVE
+========================= */
 .save {
     width: 100%;
-
     border: none;
-
     background: var(--primary);
-
     color: white;
-
     padding: 14px;
-
     border-radius: 14px;
-
     font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.save:active {
+    transform: scale(0.98);
+}
+/* =========================
+   DESKTOP
+========================= */
+@media (min-width: 700px) {
+    .app {
+        padding-top: 50px;
+    }
 }
