@@ -255,7 +255,7 @@ function renderTasks() {
                         Delete 🗑
                     </span>
                 </div>
-                <div class="task">
+<div class="task ${task.completed ? "completed" : ""}">
                     <button
                         class="check"
                         aria-label="Complete task">
