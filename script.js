@@ -227,118 +227,259 @@ input.addEventListener(
    RENDER TASKS
 ========================= */
 function renderTasks() {
-    taskList.innerHTML = "";
-    const sortedTasks = [...tasks].sort(
-    (a, b) => a.completed - b.completed
-);
 
-sortedTasks.forEach(
-    function(task) {
+    taskList.innerHTML = "";
+
+    const activeTasks =
+        tasks.filter(task => !task.completed);
+
+    const completedTasks =
+        tasks.filter(task => task.completed);
+
+
+    function createTask(task) {
+
         const container =
-            document.createElement(
-                "div"
-            );
-        function(task) {
-            const container =
-                document.createElement(
-                    "div"
-                );
-            container.className =
-                "swipe-container";
-            container.innerHTML = `
-                <div class="
-                    swipe-background
-                    swipe-complete
-                ">
+            document.createElement("div");
+
+        container.className =
+            "swipe-container";
+
+        container.innerHTML = `
+            <div class="
+                swipe-background
+                swipe-complete
+            ">
+                <span>✓ Complete</span>
+                <span></span>
+            </div>
+
+            <div class="
+                swipe-background
+                swipe-delete
+            ">
+                <span></span>
+                <span>Delete 🗑</span>
+            </div>
+
+            <div class="task ${task.completed ? "completed" : ""}">
+
+                <button
+                    class="check"
+                    aria-label="Complete task">
+
+                    ${task.completed ? "✓" : ""}
+
+                </button>
+
+                <div class="task-content">
+
+                    <p>
+                        ${escapeHTML(task.text)}
+                    </p>
+
                     <span>
-                        ✓ Complete
+                        ${task.completed ? "Completed" : "Today"}
                     </span>
-                    <span></span>
+
                 </div>
-                <div class="
-                    swipe-background
-                    swipe-delete
-                ">
-                    <span></span>
-                    <span>
-                        Delete 🗑
-                    </span>
-                </div>
-<div class="task ${task.completed ? "completed" : ""}">
+
+                <div class="actions">
+
                     <button
-                        class="check"
-                        aria-label="Complete task">
-                        ${
-                            task.completed
-                            ? "✓"
-                            : ""
-                        }
+                        class="edit"
+                        aria-label="Edit task">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <path d="
+                                M12 20h9
+                                M16.5 3.5
+                                a2.121 2.121 0 0 1 3 3
+                                L7 19
+                                l-4 1
+                                1-4Z
+                            "></path>
+
+                        </svg>
+
                     </button>
-                    <div class="task-content">
-                        <p>
-                            ${escapeHTML(
-                                task.text
-                            )}
-                        </p>
-                        <span>
-                            ${
-                                task.completed
-                                ? "Completed"
-                                : "Today"
-                            }
-                        </span>
-                    </div>
-                    <div class="actions">
-                        <!-- Edit -->
-                        <button
-                            class="edit"
-                            aria-label="Edit task">
-                            <svg
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="
-                                        M12 20h9
-                                        M16.5 3.5
-                                        a2.121 2.121 0 0 1 3 3
-                                        L7 19
-                                        l-4 1
-                                        1-4Z
-                                    ">
-                                </path>
-                            </svg>
-                        </button>
-                        <!-- Delete -->
-                        <button
-                            class="delete"
-                            aria-label="Delete task">
-                            <svg
-                                viewBox="0 0 24 24">
-                                <polyline
-                                    points="
-                                        3 6
-                                        5 6
-                                        21 6
-                                    ">
-                                </polyline>
-                                <path
-                                    d="
-                                        M19 6v14
-                                        a2 2 0 0 1-2 2H7
-                                        a2 2 0 0 1-2-2V6
-                                        m3 0V4
-                                        a2 2 0 0 1 2-2h4
-                                        a2 2 0 0 1 2 2v2
-                                    ">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
+
+
+                    <button
+                        class="delete"
+                        aria-label="Delete task">
+
+                        <svg viewBox="0 0 24 24">
+
+                            <polyline points="
+                                3 6
+                                5 6
+                                21 6
+                            "></polyline>
+
+                            <path d="
+                                M19 6v14
+                                a2 2 0 0 1-2 2H7
+                                a2 2 0 0 1-2-2V6
+                                m3 0V4
+                                a2 2 0 0 1 2-2h4
+                                a2 2 0 0 1 2 2v2
+                            "></path>
+
+                        </svg>
+
+                    </button>
+
                 </div>
-            `;
-            const taskElement =
-                container.querySelector(
-                    ".task"
+
+            </div>
+        `;
+
+
+        const taskElement =
+            container.querySelector(".task");
+
+
+        /* COMPLETE */
+
+        taskElement
+            .querySelector(".check")
+            .addEventListener(
+                "click",
+                function() {
+
+                    task.completed =
+                        !task.completed;
+
+                    saveTasks();
+
+                    renderTasks();
+
+                }
+            );
+
+
+        /* EDIT */
+
+        taskElement
+            .querySelector(".edit")
+            .addEventListener(
+                "click",
+                function() {
+
+                    const newText =
+                        prompt(
+                            "Edit task:",
+                            task.text
+                        );
+
+                    if (
+                        newText !== null &&
+                        newText.trim() !== ""
+                    ) {
+
+                        task.text =
+                            newText.trim();
+
+                        saveTasks();
+
+                        renderTasks();
+
+                    }
+
+                }
+            );
+
+
+        /* DELETE */
+
+        taskElement
+            .querySelector(".delete")
+            .addEventListener(
+                "click",
+                function() {
+
+                    deleteTask(task.id);
+
+                }
+            );
+
+
+        /* SWIPE */
+
+        addSwipe(
+            taskElement,
+            task
+        );
+
+
+        return container;
+
+    }
+
+
+    /* ACTIVE TASKS */
+
+    if (activeTasks.length > 0) {
+
+        const title =
+            document.createElement("h3");
+
+        title.className =
+            "section-title";
+
+        title.textContent =
+            "Active Tasks";
+
+        taskList.appendChild(title);
+
+
+        activeTasks.forEach(
+            function(task) {
+
+                taskList.appendChild(
+                    createTask(task)
                 );
+
+            }
+        );
+
+    }
+
+
+    /* COMPLETED TASKS */
+
+    if (completedTasks.length > 0) {
+
+        const title =
+            document.createElement("h3");
+
+        title.className =
+            "section-title";
+
+        title.textContent =
+            "Completed";
+
+        taskList.appendChild(title);
+
+
+        completedTasks.forEach(
+            function(task) {
+
+                taskList.appendChild(
+                    createTask(task)
+                );
+
+            }
+        );
+
+    }
+
+
+    updateFooter();
+
+}
             /* =====================
                COMPLETE
             ===================== */
