@@ -228,7 +228,16 @@ input.addEventListener(
 ========================= */
 function renderTasks() {
     taskList.innerHTML = "";
-    tasks.forEach(
+    const sortedTasks = [...tasks].sort(
+    (a, b) => a.completed - b.completed
+);
+
+sortedTasks.forEach(
+    function(task) {
+        const container =
+            document.createElement(
+                "div"
+            );
         function(task) {
             const container =
                 document.createElement(
