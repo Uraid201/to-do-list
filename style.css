@@ -1,0 +1,323 @@
+:root {
+    --primary: #007AFF;
+    --background: #F5F5F7;
+    --card: #FFFFFF;
+    --text: #1C1C1E;
+    --secondary: #8E8E93;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+.app {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 25px 18px;
+}
+
+
+/* Header */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.welcome {
+    color: var(--secondary);
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.header h1 {
+    font-size: 32px;
+}
+
+.profile-btn {
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+/* Add */
+
+.add-task {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#taskInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: var(--card);
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 15px;
+}
+
+#addBtn {
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 16px;
+    background: var(--primary);
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+
+/* Tasks */
+
+#taskList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.task {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    background: var(--card);
+    padding: 15px;
+
+    border-radius: 17px;
+
+    transition: 0.2s;
+
+    touch-action: pan-y;
+}
+
+.check {
+    width: 25px;
+    height: 25px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+
+    background: transparent;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+.task.completed .check {
+    background: var(--primary);
+}
+
+.task.completed p {
+    text-decoration: line-through;
+    color: var(--secondary);
+}
+
+.task-content {
+    flex: 1;
+}
+
+.task-content p {
+    font-size: 16px;
+}
+
+.task-content span {
+    display: block;
+    color: var(--secondary);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.actions {
+    display: flex;
+    gap: 5px;
+}
+
+.actions button {
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.edit {
+    color: var(--primary);
+}
+
+.delete {
+    color: #FF3B30;
+}
+
+
+/* Empty */
+
+.empty {
+    text-align: center;
+    color: var(--secondary);
+    padding: 50px 20px;
+}
+
+.empty div {
+    width: 60px;
+    height: 60px;
+
+    margin: auto auto 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--primary);
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 25px;
+}
+
+.empty h2 {
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+
+/* Footer */
+
+footer {
+    text-align: center;
+    color: var(--secondary);
+    font-size: 13px;
+    margin-top: 25px;
+}
+
+
+/* Modal */
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,0.4);
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    padding: 15px;
+
+    z-index: 10;
+}
+
+.hidden {
+    display: none;
+}
+
+.modal-box {
+    width: 100%;
+    max-width: 500px;
+
+    background: var(--card);
+
+    border-radius: 25px;
+
+    padding: 25px;
+
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 18px;
+    top: 12px;
+
+    border: none;
+    background: none;
+
+    font-size: 28px;
+
+    color: var(--secondary);
+}
+
+.modal-box h2 {
+    margin-bottom: 20px;
+}
+
+#nameInput {
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    margin-bottom: 25px;
+}
+
+.modal-box h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.colors {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.color {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    border: 3px solid white;
+
+    cursor: pointer;
+}
+
+.color.selected {
+    outline: 2px solid var(--text);
+}
+
+.save {
+    width: 100%;
+
+    border: none;
+
+    background: var(--primary);
+
+    color: white;
+
+    padding: 14px;
+
+    border-radius: 14px;
+
+    font-size: 16px;
+}
