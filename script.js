@@ -5,12 +5,11 @@ const taskCount = document.getElementById("taskCount");
 const emptyState = document.getElementById("emptyState");
 const welcome = document.getElementById("welcome");
 const profileBtn = document.getElementById("profileBtn");
+const darkModeBtn = document.getElementById("darkModeBtn");
 const profileModal = document.getElementById("profileModal");
 const closeModal = document.getElementById("closeModal");
 const nameInput = document.getElementById("nameInput");
 const saveProfile = document.getElementById("saveProfile");
-const darkModeToggle =
-    document.getElementById("darkModeToggle");
 /* =========================
    LOAD DATA
 ========================= */
@@ -19,7 +18,8 @@ let tasks =
         localStorage.getItem("tasks")
     ) || [];
 let username =
-    localStorage.getItem("username") || "";
+    localStorage.getItem("username")
+    || "";
 let primaryColor =
     localStorage.getItem("primaryColor")
     || "#007AFF";
@@ -27,7 +27,7 @@ let darkMode =
     localStorage.getItem("darkMode")
     === "true";
 /* =========================
-   INITIAL SETTINGS
+   APPLY SETTINGS
 ========================= */
 document.documentElement.style.setProperty(
     "--primary",
@@ -35,13 +35,13 @@ document.documentElement.style.setProperty(
 );
 if (darkMode) {
     document.body.classList.add("dark");
-    darkModeToggle.classList.add("active");
+    darkModeBtn.textContent = "☀️";
 }
 /* =========================
    WELCOME
 ========================= */
 function updateWelcome() {
-    if (username) {
+    if (username !== "") {
         welcome.textContent =
             `Welcome, ${username} 👋`;
         profileBtn.textContent =
@@ -55,7 +55,29 @@ function updateWelcome() {
     }
 }
 /* =========================
-   PROFILE
+   DARK MODE
+========================= */
+darkModeBtn.addEventListener(
+    "click",
+    function() {
+        darkMode =
+            !darkMode;
+        document.body.classList.toggle(
+            "dark",
+            darkMode
+        );
+        darkModeBtn.textContent =
+            darkMode
+            ? "☀️"
+            : "🌙";
+        localStorage.setItem(
+            "darkMode",
+            darkMode
+        );
+    }
+);
+/* =========================
+   PROFILE OPEN
 ========================= */
 profileBtn.addEventListener(
     "click",
@@ -67,6 +89,9 @@ profileBtn.addEventListener(
         );
     }
 );
+/* =========================
+   PROFILE CLOSE
+========================= */
 closeModal.addEventListener(
     "click",
     function() {
@@ -89,59 +114,56 @@ profileModal.addEventListener(
     }
 );
 /* =========================
-   DARK MODE
-========================= */
-darkModeToggle.addEventListener(
-    "click",
-    function() {
-        darkMode =
-            !darkMode;
-        document.body.classList.toggle(
-            "dark",
-            darkMode
-        );
-        darkModeToggle.classList.toggle(
-            "active",
-            darkMode
-        );
-    }
-);
-/* =========================
    COLORS
 ========================= */
 document
     .querySelectorAll(".color")
-    .forEach(function(button) {
-        if (
-            button.dataset.color ===
-            primaryColor
-        ) {
-            button.classList.add(
-                "selected"
-            );
-        }
-        button.addEventListener(
-            "click",
-            function() {
-                primaryColor =
-                    button.dataset.color;
-                document.documentElement.style.setProperty(
-                    "--primary",
-                    primaryColor
-                );
-                document
-                    .querySelectorAll(".color")
-                    .forEach(function(item) {
-                        item.classList.remove(
-                            "selected"
-                        );
-                    });
+    .forEach(
+        function(button) {
+            if (
+                button.dataset.color
+                ===
+                primaryColor
+            ) {
                 button.classList.add(
                     "selected"
                 );
             }
-        );
-    });
+            button.addEventListener(
+                "click",
+                function() {
+                    primaryColor =
+                        button.dataset.color;
+                    document
+                        .documentElement
+                        .style
+                        .setProperty(
+                            "--primary",
+                            primaryColor
+                        );
+                    localStorage.setItem(
+                        "primaryColor",
+                        primaryColor
+                    );
+                    document
+                        .querySelectorAll(
+                            ".color"
+                        )
+                        .forEach(
+                            function(item) {
+                                item.classList
+                                    .remove(
+                                        "selected"
+                                    );
+                            }
+                        );
+                    button.classList.add(
+                        "selected"
+                    );
+                }
+            );
+        }
+    );
 /* =========================
    SAVE PROFILE
 ========================= */
@@ -158,14 +180,6 @@ saveProfile.addEventListener(
                 username
             );
         }
-        localStorage.setItem(
-            "primaryColor",
-            primaryColor
-        );
-        localStorage.setItem(
-            "darkMode",
-            darkMode
-        );
         updateWelcome();
         profileModal.classList.add(
             "hidden"
@@ -182,9 +196,12 @@ function addTask() {
         return;
     }
     const task = {
-        id: Date.now(),
-        text: text,
-        completed: false
+        id:
+            Date.now(),
+        text:
+            text,
+        completed:
+            false
     };
     tasks.push(task);
     saveTasks();
@@ -224,7 +241,9 @@ function renderTasks() {
                     swipe-background
                     swipe-complete
                 ">
-                    <span>✓ Complete</span>
+                    <span>
+                        ✓ Complete
+                    </span>
                     <span></span>
                 </div>
                 <div class="
@@ -232,10 +251,14 @@ function renderTasks() {
                     swipe-delete
                 ">
                     <span></span>
-                    <span>Delete 🗑</span>
+                    <span>
+                        Delete 🗑
+                    </span>
                 </div>
                 <div class="task">
-                    <button class="check">
+                    <button
+                        class="check"
+                        aria-label="Complete task">
                         ${
                             task.completed
                             ? "✓"
@@ -244,7 +267,9 @@ function renderTasks() {
                     </button>
                     <div class="task-content">
                         <p>
-                            ${escapeHTML(task.text)}
+                            ${escapeHTML(
+                                task.text
+                            )}
                         </p>
                         <span>
                             ${
@@ -255,48 +280,47 @@ function renderTasks() {
                         </span>
                     </div>
                     <div class="actions">
+                        <!-- Edit -->
                         <button
                             class="edit"
-                            aria-label="Edit task"
-                        >
+                            aria-label="Edit task">
                             <svg
-                                viewBox="0 0 24 24"
-                            >
+                                viewBox="0 0 24 24">
                                 <path
                                     d="
-                                    M12 20h9
-                                    M16.5 3.5
-                                    a2.121 2.121 0 0 1 3 3
-                                    L7 19
-                                    l-4 1
-                                    1-4Z
-                                    "
-                                />
+                                        M12 20h9
+                                        M16.5 3.5
+                                        a2.121 2.121 0 0 1 3 3
+                                        L7 19
+                                        l-4 1
+                                        1-4Z
+                                    ">
+                                </path>
                             </svg>
                         </button>
+                        <!-- Delete -->
                         <button
                             class="delete"
-                            aria-label="Delete task"
-                        >
+                            aria-label="Delete task">
                             <svg
-                                viewBox="0 0 24 24"
-                            >
+                                viewBox="0 0 24 24">
                                 <polyline
                                     points="
-                                    3 6 5 6 21 6
-                                    "
-                                />
+                                        3 6
+                                        5 6
+                                        21 6
+                                    ">
+                                </polyline>
                                 <path
                                     d="
-                                    M19 6
-                                    v14
-                                    a2 2 0 0 1-2 2H7
-                                    a2 2 0 0 1-2-2V6
-                                    m3 0V4
-                                    a2 2 0 0 1 2-2h4
-                                    a2 2 0 0 1 2 2v2
-                                    "
-                                />
+                                        M19 6v14
+                                        a2 2 0 0 1-2 2H7
+                                        a2 2 0 0 1-2-2V6
+                                        m3 0V4
+                                        a2 2 0 0 1 2-2h4
+                                        a2 2 0 0 1 2 2v2
+                                    ">
+                                </path>
                             </svg>
                         </button>
                     </div>
@@ -310,7 +334,9 @@ function renderTasks() {
                COMPLETE
             ===================== */
             taskElement
-                .querySelector(".check")
+                .querySelector(
+                    ".check"
+                )
                 .addEventListener(
                     "click",
                     function() {
@@ -324,7 +350,9 @@ function renderTasks() {
                EDIT
             ===================== */
             taskElement
-                .querySelector(".edit")
+                .querySelector(
+                    ".edit"
+                )
                 .addEventListener(
                     "click",
                     function() {
@@ -336,7 +364,9 @@ function renderTasks() {
                         if (
                             newText !== null
                             &&
-                            newText.trim() !== ""
+                            newText
+                                .trim()
+                                !== ""
                         ) {
                             task.text =
                                 newText.trim();
@@ -349,7 +379,9 @@ function renderTasks() {
                DELETE
             ===================== */
             taskElement
-                .querySelector(".delete")
+                .querySelector(
+                    ".delete"
+                )
                 .addEventListener(
                     "click",
                     function() {
@@ -373,7 +405,7 @@ function renderTasks() {
     updateFooter();
 }
 /* =========================
-   DELETE TASK
+   DELETE
 ========================= */
 function deleteTask(id) {
     tasks =
@@ -394,6 +426,7 @@ function addSwipe(
 ) {
     let startX = 0;
     let currentX = 0;
+    let startY = 0;
     let dragging = false;
     element.addEventListener(
         "touchstart",
@@ -401,6 +434,9 @@ function addSwipe(
             startX =
                 event.touches[0]
                     .clientX;
+            startY =
+                event.touches[0]
+                    .clientY;
             currentX =
                 startX;
             dragging = true;
@@ -417,19 +453,52 @@ function addSwipe(
             if (!dragging) {
                 return;
             }
-            currentX =
+            const x =
                 event.touches[0]
                     .clientX;
+            const y =
+                event.touches[0]
+                    .clientY;
+            const deltaX =
+                x - startX;
+            const deltaY =
+                y - startY;
+            /*
+                If user is scrolling
+                vertically, cancel swipe.
+            */
+            if (
+                Math.abs(deltaY)
+                >
+                Math.abs(deltaX)
+            ) {
+                dragging = false;
+                element.style.transform =
+                    "translateX(0)";
+                return;
+            }
+            currentX =
+                x;
             let distance =
                 currentX - startX;
             /*
-                Limit the movement
+                Maximum movement
             */
-            if (distance > 130) {
-                distance = 130;
+            const maxDistance =
+                125;
+            if (
+                distance >
+                maxDistance
+            ) {
+                distance =
+                    maxDistance;
             }
-            if (distance < -130) {
-                distance = -130;
+            if (
+                distance <
+                -maxDistance
+            ) {
+                distance =
+                    -maxDistance;
             }
             element.style.transform =
                 `translateX(${distance}px)`;
@@ -448,12 +517,15 @@ function addSwipe(
             const distance =
                 currentX - startX;
             element.style.transition =
-                "transform 0.2s ease";
+                "transform 0.22s ease";
             /*
-                Swipe RIGHT
-                Complete
+                RIGHT
+                COMPLETE
             */
-            if (distance > 90) {
+            if (
+                distance >
+                90
+            ) {
                 element.style.transform =
                     "translateX(100%)";
                 setTimeout(
@@ -463,15 +535,16 @@ function addSwipe(
                         saveTasks();
                         renderTasks();
                     },
-                    180
+                    200
                 );
             }
             /*
-                Swipe LEFT
-                Delete
+                LEFT
+                DELETE
             */
             else if (
-                distance < -90
+                distance <
+                -90
             ) {
                 element.style.transform =
                     "translateX(-100%)";
@@ -481,12 +554,11 @@ function addSwipe(
                             task.id
                         );
                     },
-                    180
+                    200
                 );
             }
             /*
-                Not enough
-                movement
+                CANCEL
             */
             else {
                 element.style.transform =
@@ -518,17 +590,13 @@ function updateFooter() {
         ).length;
     taskCount.textContent =
         `${total} tasks • ${completed} completed`;
-    if (total === 0) {
-        emptyState.style.display =
-            "block";
-    }
-    else {
-        emptyState.style.display =
-            "none";
-    }
+    emptyState.style.display =
+        total === 0
+        ? "block"
+        : "none";
 }
 /* =========================
-   SECURITY
+   ESCAPE HTML
 ========================= */
 function escapeHTML(text) {
     const div =
