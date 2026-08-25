@@ -7,92 +7,104 @@
     <title>My Tasks</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <div class="app">
-
+    <!-- Header -->
     <header class="header">
         <div>
             <p class="welcome" id="welcome">Welcome 👋</p>
             <h1>My Tasks</h1>
         </div>
-
         <button class="profile-btn" id="profileBtn">O</button>
     </header>
-
-
+    <!-- Add Task -->
     <section class="add-task">
         <input
             id="taskInput"
             type="text"
             placeholder="What needs to be done?"
+            autocomplete="off"
         >
-
-        <button id="addBtn">+</button>
+        <button id="addBtn" class="add-btn">+</button>
     </section>
-
-
+    <!-- Tasks -->
     <section id="taskList"></section>
-
-
+    <!-- Empty State -->
     <div id="emptyState" class="empty">
-        <div>✓</div>
+        <div class="empty-icon">✓</div>
         <h2>No tasks yet</h2>
         <p>Add your first task.</p>
     </div>
-
-
+    <!-- Footer -->
     <footer>
         <span id="taskCount">0 tasks</span>
     </footer>
-
 </div>
-
-
-<!-- Name / Profile -->
-
+<!-- Profile Modal -->
 <div class="modal hidden" id="profileModal">
-
     <div class="modal-box">
-
         <button class="close" id="closeModal">×</button>
-
         <h2>Your Profile</h2>
-
+        <!-- Name -->
+        <label>Your name</label>
         <input
             id="nameInput"
             type="text"
             placeholder="Enter your name"
             maxlength="25"
         >
-
+        <!-- Colors -->
         <h3>Theme Color</h3>
-
         <div class="colors">
-
-            <button class="color" data-color="#007AFF" style="background:#007AFF"></button>
-
-            <button class="color" data-color="#7C3AED" style="background:#7C3AED"></button>
-
-            <button class="color" data-color="#16A34A" style="background:#16A34A"></button>
-
-            <button class="color" data-color="#F97316" style="background:#F97316"></button>
-
-            <button class="color" data-color="#EC4899" style="background:#EC4899"></button>
-
-            <button class="color" data-color="#EF4444" style="background:#EF4444"></button>
-
+            <button
+                class="color"
+                data-color="#007AFF"
+                style="background:#007AFF">
+            </button>
+            <button
+                class="color"
+                data-color="#7C3AED"
+                style="background:#7C3AED">
+            </button>
+            <button
+                class="color"
+                data-color="#16A34A"
+                style="background:#16A34A">
+            </button>
+            <button
+                class="color"
+                data-color="#F97316"
+                style="background:#F97316">
+            </button>
+            <button
+                class="color"
+                data-color="#EC4899"
+                style="background:#EC4899">
+            </button>
+            <button
+                class="color"
+                data-color="#EF4444"
+                style="background:#EF4444">
+            </button>
         </div>
-
-        <button class="save" id="saveProfile">Save</button>
-
+        <!-- Dark Mode -->
+        <div class="theme-row">
+            <div>
+                <strong>Dark Mode</strong>
+                <span>Change app appearance</span>
+            </div>
+            <button
+                id="darkModeToggle"
+                class="toggle"
+                aria-label="Toggle dark mode">
+                <span></span>
+            </button>
+        </div>
+        <button class="save" id="saveProfile">
+            Save
+        </button>
     </div>
-
 </div>
-
-
 <script src="script.js"></script>
-
 </body>
 </html>
