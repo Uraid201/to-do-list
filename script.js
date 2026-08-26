@@ -20,6 +20,8 @@ const closeModal = document.getElementById("closeModal");
 const nameInput = document.getElementById("nameInput");
 const saveProfile = document.getElementById("saveProfile");
 
+const sortBtn = document.getElementById("sortBtn");
+
 
 // =========================
 // DATA
@@ -39,8 +41,7 @@ let darkMode =
 
 let newestFirst = true;
 
-const sortBtn =
-    document.getElementById("sortBtn");
+
 // =========================
 // SETTINGS
 // =========================
@@ -51,8 +52,11 @@ document.documentElement.style.setProperty(
 );
 
 if (darkMode) {
+
     document.body.classList.add("dark");
+
     darkModeBtn.textContent = "☀️";
+
 }
 
 
@@ -75,8 +79,11 @@ function updateWelcome() {
         welcome.textContent =
             "Welcome 👋";
 
-        profileBtn.textContent = "O";
+        profileBtn.textContent =
+            "O";
+
     }
+
 }
 
 
@@ -84,133 +91,188 @@ function updateWelcome() {
 // DARK MODE
 // =========================
 
-darkModeBtn.addEventListener("click", function () {
+darkModeBtn.addEventListener(
+    "click",
+    function () {
 
-    darkMode = !darkMode;
+        darkMode = !darkMode;
 
-    document.body.classList.toggle(
-        "dark",
-        darkMode
-    );
+        document.body.classList.toggle(
+            "dark",
+            darkMode
+        );
 
-    darkModeBtn.textContent =
-        darkMode ? "☀️" : "🌙";
+        darkModeBtn.textContent =
+            darkMode ? "☀️" : "🌙";
 
-    localStorage.setItem(
-        "darkMode",
-        darkMode
-    );
-});
-//SORT
-sortBtn.onclick = () => {
+        localStorage.setItem(
+            "darkMode",
+            darkMode
+        );
 
-    newestFirst = !newestFirst;
+    }
+);
 
-    renderTasks();
 
-};
+// =========================
+// SORT
+// =========================
+
+sortBtn.addEventListener(
+    "click",
+    function () {
+
+        newestFirst = !newestFirst;
+
+        renderTasks();
+
+    }
+);
+
 
 // =========================
 // PROFILE
 // =========================
 
-profileBtn.addEventListener("click", function () {
+profileBtn.addEventListener(
+    "click",
+    function () {
 
-    nameInput.value = username;
+        nameInput.value = username;
 
-    profileModal.classList.remove("hidden");
-
-});
-
-
-closeModal.addEventListener("click", function () {
-
-    profileModal.classList.add("hidden");
-
-});
-
-
-profileModal.addEventListener("click", function (event) {
-
-    if (event.target === profileModal) {
-
-        profileModal.classList.add("hidden");
+        profileModal.classList.remove(
+            "hidden"
+        );
 
     }
+);
 
-});
+
+closeModal.addEventListener(
+    "click",
+    function () {
+
+        profileModal.classList.add(
+            "hidden"
+        );
+
+    }
+);
+
+
+profileModal.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            event.target === profileModal
+        ) {
+
+            profileModal.classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+);
 
 
 // =========================
 // COLORS
 // =========================
 
-document.querySelectorAll(".color").forEach(function (button) {
+document
+    .querySelectorAll(".color")
+    .forEach(
+        function (button) {
 
-    if (button.dataset.color === primaryColor) {
+            if (
+                button.dataset.color ===
+                primaryColor
+            ) {
 
-        button.classList.add("selected");
+                button.classList.add(
+                    "selected"
+                );
 
-    }
-
-
-    button.addEventListener("click", function () {
-
-        primaryColor =
-            button.dataset.color;
-
-        document.documentElement.style.setProperty(
-            "--primary",
-            primaryColor
-        );
-
-        localStorage.setItem(
-            "primaryColor",
-            primaryColor
-        );
+            }
 
 
-        document
-            .querySelectorAll(".color")
-            .forEach(function (item) {
+            button.addEventListener(
+                "click",
+                function () {
 
-                item.classList.remove("selected");
+                    primaryColor =
+                        button.dataset.color;
 
-            });
+                    document.documentElement.style.setProperty(
+                        "--primary",
+                        primaryColor
+                    );
+
+                    localStorage.setItem(
+                        "primaryColor",
+                        primaryColor
+                    );
 
 
-        button.classList.add("selected");
+                    document
+                        .querySelectorAll(".color")
+                        .forEach(
+                            function (item) {
 
-    });
+                                item.classList.remove(
+                                    "selected"
+                                );
 
-});
+                            }
+                        );
+
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+                }
+            );
+
+        }
+    );
 
 
 // =========================
 // SAVE PROFILE
 // =========================
 
-saveProfile.addEventListener("click", function () {
+saveProfile.addEventListener(
+    "click",
+    function () {
 
-    const name =
-        nameInput.value.trim();
+        const name =
+            nameInput.value.trim();
 
-    if (name) {
 
-        username = name;
+        if (name) {
 
-        localStorage.setItem(
-            "username",
-            username
+            username = name;
+
+            localStorage.setItem(
+                "username",
+                username
+            );
+
+        }
+
+
+        updateWelcome();
+
+        profileModal.classList.add(
+            "hidden"
         );
 
     }
-
-    updateWelcome();
-
-    profileModal.classList.add("hidden");
-
-});
+);
 
 
 // =========================
@@ -221,6 +283,7 @@ function addTask() {
 
     const text =
         input.value.trim();
+
 
     if (!text) {
 
@@ -280,31 +343,54 @@ function renderTasks() {
     taskList.innerHTML = "";
 
 
-    // Separate active and completed tasks
+    // =========================
+    // SEPARATE TASKS
+    // =========================
 
     const activeTasks =
-        tasks.filter(function (task) {
+        tasks.filter(
+            function (task) {
 
-            return !task.completed;
+                return !task.completed;
 
-        });
-        
-        activeTasks.sort((a, b) =>
-    newestFirst ? b.id - a.id : a.id - b.id
-);
-
-completedTasks.sort((a, b) =>
-    newestFirst ? b.id - a.id : a.id - b.id
-);
-
+            }
+        );
 
 
     const completedTasks =
-        tasks.filter(function (task) {
+        tasks.filter(
+            function (task) {
 
-            return task.completed;
+                return task.completed;
 
-        });
+            }
+        );
+
+
+    // =========================
+    // SORT TASKS
+    // =========================
+
+    activeTasks.sort(
+        function (a, b) {
+
+            return newestFirst
+                ? b.id - a.id
+                : a.id - b.id;
+
+        }
+    );
+
+
+    completedTasks.sort(
+        function (a, b) {
+
+            return newestFirst
+                ? b.id - a.id
+                : a.id - b.id;
+
+        }
+    );
 
 
     // =========================
@@ -325,13 +411,15 @@ completedTasks.sort((a, b) =>
         taskList.appendChild(title);
 
 
-        activeTasks.forEach(function (task) {
+        activeTasks.forEach(
+            function (task) {
 
-            taskList.appendChild(
-                createTaskElement(task)
-            );
+                taskList.appendChild(
+                    createTaskElement(task)
+                );
 
-        });
+            }
+        );
 
     }
 
@@ -354,13 +442,15 @@ completedTasks.sort((a, b) =>
         taskList.appendChild(title);
 
 
-        completedTasks.forEach(function (task) {
+        completedTasks.forEach(
+            function (task) {
 
-            taskList.appendChild(
-                createTaskElement(task)
-            );
+                taskList.appendChild(
+                    createTaskElement(task)
+                );
 
-        });
+            }
+        );
 
     }
 
@@ -409,7 +499,10 @@ function createTaskElement(task) {
         </div>
 
 
-        <div class="task ${task.completed ? "completed" : ""}">
+        <div class="
+            task
+            ${task.completed ? "completed" : ""}
+        ">
 
             <button
                 class="check"
@@ -427,7 +520,9 @@ function createTaskElement(task) {
                 </p>
 
                 <span>
-                    ${task.completed ? "Completed" : "Today"}
+                    ${task.completed
+                        ? "Completed"
+                        : "Today"}
                 </span>
 
             </div>
@@ -496,16 +591,19 @@ function createTaskElement(task) {
 
     taskElement
         .querySelector(".check")
-        .addEventListener("click", function () {
+        .addEventListener(
+            "click",
+            function () {
 
-            task.completed =
-                !task.completed;
+                task.completed =
+                    !task.completed;
 
-            saveTasks();
+                saveTasks();
 
-            renderTasks();
+                renderTasks();
 
-        });
+            }
+        );
 
 
     // =========================
@@ -514,30 +612,33 @@ function createTaskElement(task) {
 
     taskElement
         .querySelector(".edit")
-        .addEventListener("click", function () {
+        .addEventListener(
+            "click",
+            function () {
 
-            const newText =
-                prompt(
-                    "Edit task:",
-                    task.text
-                );
+                const newText =
+                    prompt(
+                        "Edit task:",
+                        task.text
+                    );
 
 
-            if (
-                newText !== null &&
-                newText.trim() !== ""
-            ) {
+                if (
+                    newText !== null &&
+                    newText.trim() !== ""
+                ) {
 
-                task.text =
-                    newText.trim();
+                    task.text =
+                        newText.trim();
 
-                saveTasks();
+                    saveTasks();
 
-                renderTasks();
+                    renderTasks();
+
+                }
 
             }
-
-        });
+        );
 
 
     // =========================
@@ -546,11 +647,14 @@ function createTaskElement(task) {
 
     taskElement
         .querySelector(".delete")
-        .addEventListener("click", function () {
+        .addEventListener(
+            "click",
+            function () {
 
-            deleteTask(task.id);
+                deleteTask(task.id);
 
-        });
+            }
+        );
 
 
     // =========================
@@ -575,11 +679,13 @@ function createTaskElement(task) {
 function deleteTask(id) {
 
     tasks =
-        tasks.filter(function (task) {
+        tasks.filter(
+            function (task) {
 
-            return task.id !== id;
+                return task.id !== id;
 
-        });
+            }
+        );
 
 
     saveTasks();
@@ -596,6 +702,7 @@ function deleteTask(id) {
 function addSwipe(element, task) {
 
     let startX = 0;
+
     let startY = 0;
 
     let currentX = 0;
@@ -621,7 +728,9 @@ function addSwipe(element, task) {
                 "none";
 
         },
-        { passive: true }
+        {
+            passive: true
+        }
     );
 
 
@@ -675,16 +784,22 @@ function addSwipe(element, task) {
             const maxDistance = 125;
 
 
-            if (distance > maxDistance) {
+            if (
+                distance > maxDistance
+            ) {
 
-                distance = maxDistance;
+                distance =
+                    maxDistance;
 
             }
 
 
-            if (distance < -maxDistance) {
+            if (
+                distance < -maxDistance
+            ) {
 
-                distance = -maxDistance;
+                distance =
+                    -maxDistance;
 
             }
 
@@ -693,7 +808,9 @@ function addSwipe(element, task) {
                 `translateX(${distance}px)`;
 
         },
-        { passive: true }
+        {
+            passive: true
+        }
     );
 
 
@@ -719,7 +836,9 @@ function addSwipe(element, task) {
                 "transform 0.22s ease";
 
 
-            // Swipe right = Complete
+            // =========================
+            // SWIPE RIGHT = COMPLETE
+            // =========================
 
             if (distance > 90) {
 
@@ -727,21 +846,26 @@ function addSwipe(element, task) {
                     "translateX(100%)";
 
 
-                setTimeout(function () {
+                setTimeout(
+                    function () {
 
-                    task.completed =
-                        !task.completed;
+                        task.completed =
+                            !task.completed;
 
-                    saveTasks();
+                        saveTasks();
 
-                    renderTasks();
+                        renderTasks();
 
-                }, 200);
+                    },
+                    200
+                );
 
             }
 
 
-            // Swipe left = Delete
+            // =========================
+            // SWIPE LEFT = DELETE
+            // =========================
 
             else if (distance < -90) {
 
@@ -749,16 +873,21 @@ function addSwipe(element, task) {
                     "translateX(-100%)";
 
 
-                setTimeout(function () {
+                setTimeout(
+                    function () {
 
-                    deleteTask(task.id);
+                        deleteTask(task.id);
 
-                }, 200);
+                    },
+                    200
+                );
 
             }
 
 
-            // Not enough movement
+            // =========================
+            // CANCEL SWIPE
+            // =========================
 
             else {
 
@@ -798,11 +927,13 @@ function updateFooter() {
 
 
     const completed =
-        tasks.filter(function (task) {
+        tasks.filter(
+            function (task) {
 
-            return task.completed;
+                return task.completed;
 
-        }).length;
+            }
+        ).length;
 
 
     taskCount.textContent =
@@ -818,7 +949,7 @@ function updateFooter() {
 
 
 // =========================
-// SECURITY
+// ESCAPE HTML
 // =========================
 
 function escapeHTML(text) {
@@ -826,7 +957,8 @@ function escapeHTML(text) {
     const div =
         document.createElement("div");
 
-    div.textContent = text;
+    div.textContent =
+        text;
 
     return div.innerHTML;
 
