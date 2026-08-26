@@ -363,10 +363,6 @@ function renderTasks() {
         );
 
 
-    // =========================
-    // SORT
-    // =========================
-
     activeTasks.sort(
         function (a, b) {
 
@@ -390,7 +386,7 @@ function renderTasks() {
 
 
     // =========================
-    // ACTIVE
+    // ACTIVE TASKS
     // =========================
 
     if (activeTasks.length > 0) {
@@ -421,7 +417,7 @@ function renderTasks() {
 
 
     // =========================
-    // COMPLETED
+    // COMPLETED TASKS
     // =========================
 
     if (completedTasks.length > 0) {
@@ -475,25 +471,15 @@ function createTaskElement(task) {
             swipe-background
             swipe-complete
         ">
-
             <span>✓ Complete</span>
-
-            <span></span>
-
         </div>
-
 
         <div class="
             swipe-background
             swipe-delete
         ">
-
-            <span></span>
-
             <span>Delete 🗑</span>
-
         </div>
-
 
         <div class="
             task
@@ -580,6 +566,12 @@ function createTaskElement(task) {
     const taskElement =
         container.querySelector(".task");
 
+    const completeBackground =
+        container.querySelector(".swipe-complete");
+
+    const deleteBackground =
+        container.querySelector(".swipe-delete");
+
 
     // =========================
     // COMPLETE BUTTON
@@ -591,12 +583,22 @@ function createTaskElement(task) {
             "click",
             function () {
 
-                task.completed =
-                    !task.completed;
+                completeBackground.style.opacity =
+                    "1";
 
-                saveTasks();
+                setTimeout(
+                    function () {
 
-                renderTasks();
+                        task.completed =
+                            !task.completed;
+
+                        saveTasks();
+
+                        renderTasks();
+
+                    },
+                    180
+                );
 
             }
         );
@@ -659,7 +661,9 @@ function createTaskElement(task) {
 
     addSwipe(
         taskElement,
-        task
+        task,
+        completeBackground,
+        deleteBackground
     );
 
 
@@ -695,7 +699,12 @@ function deleteTask(id) {
 // SWIPE
 // =========================
 
-function addSwipe(element, task) {
+function addSwipe(
+    element,
+    task,
+    completeBackground,
+    deleteBackground
+) {
 
     let startX = 0;
 
@@ -727,6 +736,12 @@ function addSwipe(element, task) {
 
             element.style.transition =
                 "none";
+
+            completeBackground.style.opacity =
+                "0";
+
+            deleteBackground.style.opacity =
+                "0";
 
         },
         {
@@ -765,6 +780,7 @@ function addSwipe(element, task) {
 
 
             // Vertical scrolling
+
             if (
                 Math.abs(deltaY) >
                 Math.abs(deltaX)
@@ -777,6 +793,12 @@ function addSwipe(element, task) {
 
                 element.style.transform =
                     "translate3d(0,0,0)";
+
+                completeBackground.style.opacity =
+                    "0";
+
+                deleteBackground.style.opacity =
+                    "0";
 
                 return;
 
@@ -816,6 +838,41 @@ function addSwipe(element, task) {
             element.style.transform =
                 `translate3d(${distance}px,0,0)`;
 
+
+            // =========================
+            // SHOW BACKGROUND BY DIRECTION
+            // =========================
+
+            if (distance > 10) {
+
+                completeBackground.style.opacity =
+                    "1";
+
+                deleteBackground.style.opacity =
+                    "0";
+
+            }
+
+            else if (distance < -10) {
+
+                completeBackground.style.opacity =
+                    "0";
+
+                deleteBackground.style.opacity =
+                    "1";
+
+            }
+
+            else {
+
+                completeBackground.style.opacity =
+                    "0";
+
+                deleteBackground.style.opacity =
+                    "0";
+
+            }
+
         },
         {
             passive: true
@@ -850,11 +907,17 @@ function addSwipe(element, task) {
 
 
             // =========================
-            // SWIPE RIGHT
             // COMPLETE
             // =========================
 
             if (distance > 90) {
+
+                completeBackground.style.opacity =
+                    "1";
+
+                deleteBackground.style.opacity =
+                    "0";
+
 
                 element.style.transform =
                     "translate3d(100%,0,0)";
@@ -862,17 +925,6 @@ function addSwipe(element, task) {
 
                 setTimeout(
                     function () {
-
-                        /*
-                         * Reset the transform BEFORE
-                         * rendering the task again.
-                         *
-                         * This prevents Safari from
-                         * leaving the Delete layer visible.
-                         */
-
-                        element.style.transform =
-                            "translate3d(0,0,0)";
 
                         task.completed =
                             !task.completed;
@@ -891,11 +943,17 @@ function addSwipe(element, task) {
 
 
             // =========================
-            // SWIPE LEFT
             // DELETE
             // =========================
 
             if (distance < -90) {
+
+                completeBackground.style.opacity =
+                    "0";
+
+                deleteBackground.style.opacity =
+                    "1";
+
 
                 element.style.transform =
                     "translate3d(-100%,0,0)";
@@ -903,9 +961,6 @@ function addSwipe(element, task) {
 
                 setTimeout(
                     function () {
-
-                        element.style.transform =
-                            "translate3d(0,0,0)";
 
                         deleteTask(task.id);
 
@@ -924,6 +979,12 @@ function addSwipe(element, task) {
 
             element.style.transform =
                 "translate3d(0,0,0)";
+
+            completeBackground.style.opacity =
+                "0";
+
+            deleteBackground.style.opacity =
+                "0";
 
         }
     );
