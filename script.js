@@ -343,10 +343,6 @@ function renderTasks() {
     taskList.innerHTML = "";
 
 
-    // =========================
-    // SEPARATE TASKS
-    // =========================
-
     const activeTasks =
         tasks.filter(
             function (task) {
@@ -368,7 +364,7 @@ function renderTasks() {
 
 
     // =========================
-    // SORT TASKS
+    // SORT
     // =========================
 
     activeTasks.sort(
@@ -394,7 +390,7 @@ function renderTasks() {
 
 
     // =========================
-    // ACTIVE TASKS
+    // ACTIVE
     // =========================
 
     if (activeTasks.length > 0) {
@@ -425,7 +421,7 @@ function renderTasks() {
 
 
     // =========================
-    // COMPLETED TASKS
+    // COMPLETED
     // =========================
 
     if (completedTasks.length > 0) {
@@ -586,7 +582,7 @@ function createTaskElement(task) {
 
 
     // =========================
-    // COMPLETE
+    // COMPLETE BUTTON
     // =========================
 
     taskElement
@@ -642,7 +638,7 @@ function createTaskElement(task) {
 
 
     // =========================
-    // DELETE
+    // DELETE BUTTON
     // =========================
 
     taskElement
@@ -662,9 +658,10 @@ function createTaskElement(task) {
     // =========================
 
     addSwipe(
-    taskElement,
-    task
+        taskElement,
+        task
     );
+
 
     return container;
 
@@ -709,6 +706,10 @@ function addSwipe(element, task) {
     let dragging = false;
 
 
+    // =========================
+    // TOUCH START
+    // =========================
+
     element.addEventListener(
         "touchstart",
         function (event) {
@@ -719,7 +720,8 @@ function addSwipe(element, task) {
             startY =
                 event.touches[0].clientY;
 
-            currentX = startX;
+            currentX =
+                startX;
 
             dragging = true;
 
@@ -732,6 +734,10 @@ function addSwipe(element, task) {
         }
     );
 
+
+    // =========================
+    // TOUCH MOVE
+    // =========================
 
     element.addEventListener(
         "touchmove",
@@ -758,6 +764,7 @@ function addSwipe(element, task) {
                 y - startY;
 
 
+            // Vertical scrolling
             if (
                 Math.abs(deltaY) >
                 Math.abs(deltaX)
@@ -765,8 +772,11 @@ function addSwipe(element, task) {
 
                 dragging = false;
 
+                element.style.transition =
+                    "transform 0.22s ease";
+
                 element.style.transform =
-                    "translateX(0)";
+                    "translate3d(0,0,0)";
 
                 return;
 
@@ -804,7 +814,7 @@ function addSwipe(element, task) {
 
 
             element.style.transform =
-                `translateX(${distance}px)`;
+                `translate3d(${distance}px,0,0)`;
 
         },
         {
@@ -812,6 +822,10 @@ function addSwipe(element, task) {
         }
     );
 
+
+    // =========================
+    // TOUCH END
+    // =========================
 
     element.addEventListener(
         "touchend",
@@ -836,17 +850,29 @@ function addSwipe(element, task) {
 
 
             // =========================
-            // SWIPE RIGHT = COMPLETE
+            // SWIPE RIGHT
+            // COMPLETE
             // =========================
 
             if (distance > 90) {
 
                 element.style.transform =
-                    "translateX(100%)";
+                    "translate3d(100%,0,0)";
 
 
                 setTimeout(
                     function () {
+
+                        /*
+                         * Reset the transform BEFORE
+                         * rendering the task again.
+                         *
+                         * This prevents Safari from
+                         * leaving the Delete layer visible.
+                         */
+
+                        element.style.transform =
+                            "translate3d(0,0,0)";
 
                         task.completed =
                             !task.completed;
@@ -856,44 +882,48 @@ function addSwipe(element, task) {
                         renderTasks();
 
                     },
-                    200
+                    220
                 );
+
+                return;
 
             }
 
 
             // =========================
-            // SWIPE LEFT = DELETE
+            // SWIPE LEFT
+            // DELETE
             // =========================
 
-            else if (distance < -90) {
+            if (distance < -90) {
 
                 element.style.transform =
-                    "translateX(-100%)";
+                    "translate3d(-100%,0,0)";
 
 
                 setTimeout(
                     function () {
 
+                        element.style.transform =
+                            "translate3d(0,0,0)";
+
                         deleteTask(task.id);
 
                     },
-                    200
+                    220
                 );
 
+                return;
+
             }
 
 
             // =========================
-            // CANCEL SWIPE
+            // CANCEL
             // =========================
 
-            else {
-
-                element.style.transform =
-                    "translateX(0)";
-
-            }
+            element.style.transform =
+                "translate3d(0,0,0)";
 
         }
     );
