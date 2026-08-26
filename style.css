@@ -377,11 +377,11 @@ button {
 
 .task.completed {
     opacity: 1;
-    background: #D6F2DE; !important
+    background: #C8EACF; !important
 }
 
 body.dark .task.completed {
-    background: #285638; !important
+    background: #315C3B; !important
 }
 
 /* =========================
