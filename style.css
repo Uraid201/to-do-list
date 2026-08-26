@@ -6,7 +6,7 @@
     --secondary: #8E8E93;
     --border: #E5E5EA;
     --danger: #FF3B30;
-    --success: #63C47A;
+    --success: #5AC77A;
 }
 
 /* =========================
@@ -31,7 +31,15 @@ body.dark {
     padding: 0;
 }
 
+html {
+    width: 100%;
+    min-height: 100%;
+}
+
 body {
+    width: 100%;
+    min-height: 100vh;
+
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -42,11 +50,11 @@ body {
     background: var(--background);
     color: var(--text);
 
-    min-height: 100vh;
-
     transition:
         background 0.25s ease,
         color 0.25s ease;
+
+    -webkit-font-smoothing: antialiased;
 }
 
 button,
@@ -65,7 +73,8 @@ button {
 .app {
     width: 100%;
     max-width: 620px;
-    margin: auto;
+
+    margin: 0 auto;
 
     padding:
         25px
@@ -87,23 +96,27 @@ button {
 
 .welcome {
     color: var(--secondary);
+
     font-size: 15px;
+
     margin-bottom: 5px;
 }
 
 .header h1 {
     font-size: 32px;
+
     letter-spacing: -1px;
 }
 
 .header-actions {
     display: flex;
     align-items: center;
+
     gap: 8px;
 }
 
 /* =========================
-   DARK MODE BUTTON
+   ICON BUTTON
 ========================= */
 
 .icon-btn {
@@ -125,7 +138,7 @@ button {
     cursor: pointer;
 
     box-shadow:
-        0 2px 10px rgba(0, 0, 0, 0.05);
+        0 2px 10px rgba(0,0,0,0.05);
 
     transition:
         transform 0.15s ease,
@@ -169,6 +182,7 @@ button {
 
 .add-task {
     display: flex;
+
     gap: 10px;
 
     margin-bottom: 20px;
@@ -191,7 +205,7 @@ button {
     font-size: 15px;
 
     box-shadow:
-        0 3px 12px rgba(0, 0, 0, 0.04);
+        0 3px 12px rgba(0,0,0,0.04);
 }
 
 #taskInput::placeholder {
@@ -228,7 +242,9 @@ button {
 
 #taskList {
     display: flex;
+
     flex-direction: column;
+
     gap: 10px;
 }
 
@@ -242,7 +258,9 @@ button {
     color: var(--secondary);
 
     margin:
-        18px 4px 8px;
+        18px
+        4px
+        8px;
 
     font-weight: 600;
 }
@@ -254,11 +272,11 @@ button {
 .swipe-container {
     position: relative;
 
+    width: 100%;
+
     overflow: hidden;
 
     border-radius: 18px;
-
-    width: 100%;
 }
 
 /* =========================
@@ -273,25 +291,42 @@ button {
     z-index: 0;
 
     display: flex;
+
     align-items: center;
-    justify-content: space-between;
 
     padding: 0 20px;
 
     color: white;
 
     font-size: 14px;
+
     font-weight: 600;
 
     pointer-events: none;
+
+    opacity: 0;
 }
+
+/* =========================
+   SWIPE RIGHT
+   COMPLETE = LEFT SIDE
+========================= */
 
 .swipe-complete {
     background: var(--success);
+
+    justify-content: flex-start;
 }
+
+/* =========================
+   SWIPE LEFT
+   DELETE = RIGHT SIDE
+========================= */
 
 .swipe-delete {
     background: var(--danger);
+
+    justify-content: flex-end;
 }
 
 /* =========================
@@ -306,6 +341,7 @@ button {
     width: 100%;
 
     display: flex;
+
     align-items: center;
 
     gap: 12px;
@@ -313,14 +349,16 @@ button {
     padding: 15px;
 
     background: var(--card);
+
     color: var(--text);
 
     border-radius: 18px;
 
     box-shadow:
-        0 3px 12px rgba(0, 0, 0, 0.04);
+        0 3px 12px rgba(0,0,0,0.04);
 
-    transform: translateX(0);
+    transform:
+        translate3d(0,0,0);
 
     touch-action: pan-y;
 
@@ -329,8 +367,22 @@ button {
     will-change: transform;
 
     transition:
-        background 0.25s ease,
-        color 0.25s ease;
+        background 0.2s ease,
+        opacity 0.2s ease;
+}
+
+/* =========================
+   COMPLETED TASK
+========================= */
+
+.task.completed {
+    opacity: 1;
+
+    background: #E8F7EC;
+}
+
+body.dark .task.completed {
+    background: #183520;
 }
 
 /* =========================
@@ -339,14 +391,18 @@ button {
 
 .task-content {
     flex: 1;
+
     min-width: 0;
 }
 
 .task-content p {
     font-size: 16px;
+
     font-weight: 500;
 
     word-break: break-word;
+
+    line-height: 1.4;
 }
 
 .task-content span {
@@ -357,6 +413,13 @@ button {
     font-size: 12px;
 
     margin-top: 4px;
+}
+
+.task.completed
+.task-content p {
+    text-decoration: line-through;
+
+    color: var(--secondary);
 }
 
 /* =========================
@@ -380,6 +443,7 @@ button {
     color: white;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -389,42 +453,15 @@ button {
 
     transition:
         background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease;
+        transform 0.15s ease;
 }
 
-/* =========================
-   COMPLETED TASK
-========================= */
-
-.task.completed {
-    background: var(--success);
-    color: white;
-
-    opacity: 1;
+.check:active {
+    transform: scale(0.88);
 }
-
-/* Completed check */
 
 .task.completed .check {
-    background: white;
-    border-color: white;
-
-    color: var(--success);
-}
-
-/* Completed text */
-
-.task.completed .task-content p {
-    text-decoration: line-through;
-
-    color: rgba(255, 255, 255, 0.95);
-}
-
-/* Completed subtitle */
-
-.task.completed .task-content span {
-    color: rgba(255, 255, 255, 0.8);
+    background: var(--primary);
 }
 
 /* =========================
@@ -433,9 +470,12 @@ button {
 
 .actions {
     display: flex;
+
     align-items: center;
 
     gap: 2px;
+
+    flex-shrink: 0;
 }
 
 .actions button {
@@ -443,6 +483,7 @@ button {
     height: 34px;
 
     border: none;
+
     border-radius: 10px;
 
     background: transparent;
@@ -450,28 +491,30 @@ button {
     cursor: pointer;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 }
 
 .actions button:active {
     background:
-        rgba(128, 128, 128, 0.15);
+        rgba(128,128,128,0.15);
 }
+
+/* =========================
+   EDIT
+========================= */
 
 .edit {
     color: var(--primary);
 }
 
+/* =========================
+   DELETE
+========================= */
+
 .delete {
     color: var(--danger);
-}
-
-/* Completed action icons */
-
-.task.completed .edit,
-.task.completed .delete {
-    color: white;
 }
 
 /* =========================
@@ -489,6 +532,7 @@ button {
     stroke-width: 2;
 
     stroke-linecap: round;
+
     stroke-linejoin: round;
 }
 
@@ -516,10 +560,12 @@ button {
         15px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     background: var(--primary);
+
     color: white;
 
     border-radius: 50%;
@@ -561,11 +607,12 @@ footer {
     inset: 0;
 
     background:
-        rgba(0, 0, 0, 0.45);
+        rgba(0,0,0,0.45);
 
     display: flex;
 
     align-items: flex-end;
+
     justify-content: center;
 
     padding: 15px;
@@ -577,12 +624,17 @@ footer {
     display: none !important;
 }
 
+/* =========================
+   MODAL BOX
+========================= */
+
 .modal-box {
     width: 100%;
 
     max-width: 500px;
 
     background: var(--card);
+
     color: var(--text);
 
     border-radius:
@@ -596,7 +648,7 @@ footer {
     position: relative;
 
     box-shadow:
-        0 -5px 30px rgba(0, 0, 0, 0.15);
+        0 -5px 30px rgba(0,0,0,0.15);
 }
 
 .close {
@@ -609,6 +661,7 @@ footer {
     height: 35px;
 
     border: none;
+
     border-radius: 50%;
 
     background: transparent;
@@ -648,6 +701,7 @@ footer {
     outline: none;
 
     background: var(--background);
+
     color: var(--text);
 
     font-size: 15px;
@@ -671,6 +725,8 @@ footer {
     gap: 12px;
 
     margin-bottom: 25px;
+
+    flex-wrap: wrap;
 }
 
 .color {
@@ -704,6 +760,7 @@ footer {
     border: none;
 
     background: var(--primary);
+
     color: white;
 
     padding: 14px;
@@ -711,6 +768,7 @@ footer {
     border-radius: 14px;
 
     font-size: 16px;
+
     font-weight: 600;
 
     cursor: pointer;
@@ -737,9 +795,18 @@ footer {
         font-size: 28px;
     }
 
+    .header {
+        margin-bottom: 20px;
+    }
+
+    .icon-btn,
+    .profile-btn {
+        width: 40px;
+        height: 40px;
+    }
+
     .task {
-        padding: 13px;
-        gap: 10px;
+        padding: 14px 12px;
     }
 
     .task-content p {
@@ -751,12 +818,19 @@ footer {
         height: 32px;
     }
 
+    .swipe-background {
+        padding:
+            0 16px;
+    }
 }
+
+/* =========================
+   DESKTOP
+========================= */
 
 @media (min-width: 700px) {
 
     .app {
         padding-top: 50px;
     }
-
 }
