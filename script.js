@@ -52,11 +52,8 @@ document.documentElement.style.setProperty(
 );
 
 if (darkMode) {
-
     document.body.classList.add("dark");
-
     darkModeBtn.textContent = "☀️";
-
 }
 
 
@@ -79,11 +76,9 @@ function updateWelcome() {
         welcome.textContent =
             "Welcome 👋";
 
-        profileBtn.textContent =
-            "O";
+        profileBtn.textContent = "O";
 
     }
-
 }
 
 
@@ -164,9 +159,7 @@ profileModal.addEventListener(
     "click",
     function (event) {
 
-        if (
-            event.target === profileModal
-        ) {
+        if (event.target === profileModal) {
 
             profileModal.classList.add(
                 "hidden"
@@ -198,7 +191,6 @@ document
 
             }
 
-
             button.addEventListener(
                 "click",
                 function () {
@@ -216,7 +208,6 @@ document
                         primaryColor
                     );
 
-
                     document
                         .querySelectorAll(".color")
                         .forEach(
@@ -228,7 +219,6 @@ document
 
                             }
                         );
-
 
                     button.classList.add(
                         "selected"
@@ -252,7 +242,6 @@ saveProfile.addEventListener(
         const name =
             nameInput.value.trim();
 
-
         if (name) {
 
             username = name;
@@ -263,7 +252,6 @@ saveProfile.addEventListener(
             );
 
         }
-
 
         updateWelcome();
 
@@ -284,13 +272,9 @@ function addTask() {
     const text =
         input.value.trim();
 
-
     if (!text) {
-
         return;
-
     }
-
 
     const task = {
 
@@ -301,7 +285,6 @@ function addTask() {
         completed: false
 
     };
-
 
     tasks.push(task);
 
@@ -342,51 +325,42 @@ function renderTasks() {
 
     taskList.innerHTML = "";
 
-
     const activeTasks =
-        tasks.filter(
-            function (task) {
+        tasks.filter(function (task) {
 
-                return !task.completed;
+            return !task.completed;
 
-            }
-        );
+        });
 
 
     const completedTasks =
-        tasks.filter(
-            function (task) {
+        tasks.filter(function (task) {
 
-                return task.completed;
+            return task.completed;
 
-            }
-        );
+        });
 
 
-    activeTasks.sort(
-        function (a, b) {
+    activeTasks.sort(function (a, b) {
 
-            return newestFirst
-                ? b.id - a.id
-                : a.id - b.id;
+        return newestFirst
+            ? b.id - a.id
+            : a.id - b.id;
 
-        }
-    );
+    });
 
 
-    completedTasks.sort(
-        function (a, b) {
+    completedTasks.sort(function (a, b) {
 
-            return newestFirst
-                ? b.id - a.id
-                : a.id - b.id;
+        return newestFirst
+            ? b.id - a.id
+            : a.id - b.id;
 
-        }
-    );
+    });
 
 
     // =========================
-    // ACTIVE TASKS
+    // ACTIVE
     // =========================
 
     if (activeTasks.length > 0) {
@@ -403,21 +377,19 @@ function renderTasks() {
         taskList.appendChild(title);
 
 
-        activeTasks.forEach(
-            function (task) {
+        activeTasks.forEach(function (task) {
 
-                taskList.appendChild(
-                    createTaskElement(task)
-                );
+            taskList.appendChild(
+                createTaskElement(task)
+            );
 
-            }
-        );
+        });
 
     }
 
 
     // =========================
-    // COMPLETED TASKS
+    // COMPLETED
     // =========================
 
     if (completedTasks.length > 0) {
@@ -434,15 +406,13 @@ function renderTasks() {
         taskList.appendChild(title);
 
 
-        completedTasks.forEach(
-            function (task) {
+        completedTasks.forEach(function (task) {
 
-                taskList.appendChild(
-                    createTaskElement(task)
-                );
+            taskList.appendChild(
+                createTaskElement(task)
+            );
 
-            }
-        );
+        });
 
     }
 
@@ -467,6 +437,8 @@ function createTaskElement(task) {
 
     container.innerHTML = `
 
+        <!-- SWIPE ONLY -->
+
         <div class="
             swipe-background
             swipe-complete
@@ -474,12 +446,16 @@ function createTaskElement(task) {
             <span>✓ Complete</span>
         </div>
 
+
         <div class="
             swipe-background
             swipe-delete
         ">
             <span>Delete 🗑</span>
         </div>
+
+
+        <!-- ACTUAL TASK -->
 
         <div class="
             task
@@ -502,9 +478,11 @@ function createTaskElement(task) {
                 </p>
 
                 <span>
-                    ${task.completed
-                        ? "Completed"
-                        : "Today"}
+                    ${
+                        task.completed
+                            ? "Completed"
+                            : "Today"
+                    }
                 </span>
 
             </div>
@@ -566,15 +544,17 @@ function createTaskElement(task) {
     const taskElement =
         container.querySelector(".task");
 
+
     const completeBackground =
         container.querySelector(".swipe-complete");
+
 
     const deleteBackground =
         container.querySelector(".swipe-delete");
 
 
     // =========================
-    // COMPLETE BUTTON
+    // CHECK BUTTON
     // =========================
 
     taskElement
@@ -583,22 +563,15 @@ function createTaskElement(task) {
             "click",
             function () {
 
-                completeBackground.style.opacity =
-                    "1";
+                // فقط نغير الحالة
+                // بدون أي Swipe Background
 
-                setTimeout(
-                    function () {
+                task.completed =
+                    !task.completed;
 
-                        task.completed =
-                            !task.completed;
+                saveTasks();
 
-                        saveTasks();
-
-                        renderTasks();
-
-                    },
-                    180
-                );
+                renderTasks();
 
             }
         );
@@ -679,13 +652,11 @@ function createTaskElement(task) {
 function deleteTask(id) {
 
     tasks =
-        tasks.filter(
-            function (task) {
+        tasks.filter(function (task) {
 
-                return task.id !== id;
+            return task.id !== id;
 
-            }
-        );
+        });
 
 
     saveTasks();
@@ -707,11 +678,8 @@ function addSwipe(
 ) {
 
     let startX = 0;
-
     let startY = 0;
-
     let currentX = 0;
-
     let dragging = false;
 
 
@@ -759,9 +727,7 @@ function addSwipe(
         function (event) {
 
             if (!dragging) {
-
                 return;
-
             }
 
 
@@ -779,7 +745,7 @@ function addSwipe(
                 y - startY;
 
 
-            // Vertical scrolling
+            // Allow normal vertical scrolling
 
             if (
                 Math.abs(deltaY) >
@@ -815,9 +781,7 @@ function addSwipe(
             const maxDistance = 125;
 
 
-            if (
-                distance > maxDistance
-            ) {
+            if (distance > maxDistance) {
 
                 distance =
                     maxDistance;
@@ -825,9 +789,7 @@ function addSwipe(
             }
 
 
-            if (
-                distance < -maxDistance
-            ) {
+            if (distance < -maxDistance) {
 
                 distance =
                     -maxDistance;
@@ -840,7 +802,7 @@ function addSwipe(
 
 
             // =========================
-            // SHOW BACKGROUND BY DIRECTION
+            // RIGHT = COMPLETE
             // =========================
 
             if (distance > 10) {
@@ -853,6 +815,11 @@ function addSwipe(
 
             }
 
+
+            // =========================
+            // LEFT = DELETE
+            // =========================
+
             else if (distance < -10) {
 
                 completeBackground.style.opacity =
@@ -862,6 +829,7 @@ function addSwipe(
                     "1";
 
             }
+
 
             else {
 
@@ -889,9 +857,7 @@ function addSwipe(
         function () {
 
             if (!dragging) {
-
                 return;
-
             }
 
 
@@ -907,7 +873,7 @@ function addSwipe(
 
 
             // =========================
-            // COMPLETE
+            // SWIPE RIGHT
             // =========================
 
             if (distance > 90) {
@@ -918,24 +884,21 @@ function addSwipe(
                 deleteBackground.style.opacity =
                     "0";
 
-
                 element.style.transform =
                     "translate3d(100%,0,0)";
 
 
-                setTimeout(
-                    function () {
+                setTimeout(function () {
 
-                        task.completed =
-                            !task.completed;
+                    task.completed =
+                        !task.completed;
 
-                        saveTasks();
+                    saveTasks();
 
-                        renderTasks();
+                    renderTasks();
 
-                    },
-                    220
-                );
+                }, 220);
+
 
                 return;
 
@@ -943,7 +906,7 @@ function addSwipe(
 
 
             // =========================
-            // DELETE
+            // SWIPE LEFT
             // =========================
 
             if (distance < -90) {
@@ -954,19 +917,16 @@ function addSwipe(
                 deleteBackground.style.opacity =
                     "1";
 
-
                 element.style.transform =
                     "translate3d(-100%,0,0)";
 
 
-                setTimeout(
-                    function () {
+                setTimeout(function () {
 
-                        deleteTask(task.id);
+                    deleteTask(task.id);
 
-                    },
-                    220
-                );
+                }, 220);
+
 
                 return;
 
@@ -1017,13 +977,11 @@ function updateFooter() {
 
 
     const completed =
-        tasks.filter(
-            function (task) {
+        tasks.filter(function (task) {
 
-                return task.completed;
+            return task.completed;
 
-            }
-        ).length;
+        }).length;
 
 
     taskCount.textContent =
