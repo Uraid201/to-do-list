@@ -180,6 +180,7 @@ button {
     position: relative;
     overflow: hidden;
     border-radius: 18px;
+    width:100%;
 }
 /* =========================
    SWIPE BACKGROUND
@@ -187,14 +188,19 @@ button {
 .swipe-background {
     position: absolute;
     inset: 0;
+    z-index: 0;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding:
-        0 20px;
+
+    padding: 0 20px;
+
     color: white;
     font-size: 14px;
     font-weight: 600;
+
+    pointer-events: none;
 }
 .swipe-complete {
     background: var(--success);
