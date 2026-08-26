@@ -37,7 +37,10 @@ let primaryColor =
 let darkMode =
     localStorage.getItem("darkMode") === "true";
 
+let newestFirst = true;
 
+const sortBtn =
+    document.getElementById("sortBtn");
 // =========================
 // SETTINGS
 // =========================
@@ -98,7 +101,14 @@ darkModeBtn.addEventListener("click", function () {
         darkMode
     );
 });
+//SORT
+sortBtn.onclick = () => {
 
+    newestFirst = !newestFirst;
+
+    renderTasks();
+
+};
 
 // =========================
 // PROFILE
@@ -278,6 +288,15 @@ function renderTasks() {
             return !task.completed;
 
         });
+        
+        activeTasks.sort((a, b) =>
+    newestFirst ? b.id - a.id : a.id - b.id
+);
+
+completedTasks.sort((a, b) =>
+    newestFirst ? b.id - a.id : a.id - b.id
+);
+
 
 
     const completedTasks =
