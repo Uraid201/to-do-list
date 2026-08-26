@@ -8,9 +8,12 @@
     --danger: #FF3B30;
     --success: #34C759;
 }
+
+
 /* =========================
    DARK MODE
 ========================= */
+
 body.dark {
     --background: #000000;
     --card: #1C1C1E;
@@ -18,460 +21,732 @@ body.dark {
     --secondary: #98989D;
     --border: #38383A;
 }
+
+
 /* =========================
    RESET
 ========================= */
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
+html {
+    width: 100%;
+    min-height: 100%;
+}
+
 body {
+    width: 100%;
+    min-height: 100vh;
+
     font-family:
         -apple-system,
         BlinkMacSystemFont,
         "SF Pro Display",
         "Segoe UI",
         sans-serif;
+
     background: var(--background);
     color: var(--text);
-    min-height: 100vh;
+
     transition:
         background 0.25s ease,
         color 0.25s ease;
+
+    -webkit-font-smoothing: antialiased;
 }
+
 button,
 input {
     font-family: inherit;
 }
+
 button {
     -webkit-tap-highlight-color: transparent;
 }
+
+
 /* =========================
    APP
 ========================= */
+
 .app {
     width: 100%;
     max-width: 620px;
-    margin: auto;
+
+    margin: 0 auto;
+
     padding:
         25px
         18px
         35px;
 }
+
+
 /* =========================
    HEADER
 ========================= */
+
 .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     margin-bottom: 25px;
 }
+
 .welcome {
     color: var(--secondary);
+
     font-size: 15px;
+
     margin-bottom: 5px;
 }
+
 .header h1 {
     font-size: 32px;
     letter-spacing: -1px;
 }
+
 .header-actions {
     display: flex;
     align-items: center;
     gap: 8px;
 }
+
+
 /* =========================
-   DARK MODE BUTTON
+   ICON BUTTON
 ========================= */
+
 .icon-btn {
     width: 43px;
     height: 43px;
+
+    flex-shrink: 0;
+
     border: none;
     border-radius: 50%;
+
     background: var(--card);
     color: var(--text);
+
     font-size: 19px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     cursor: pointer;
+
     box-shadow:
-        0 2px 10px rgba(0,0,0,0.05);
+        0 2px 10px rgba(0, 0, 0, 0.05);
+
     transition:
         transform 0.15s ease,
         background 0.25s ease;
 }
+
 .icon-btn:active {
     transform: scale(0.88);
 }
+
+
 /* =========================
    PROFILE
 ========================= */
+
 .profile-btn {
     width: 43px;
     height: 43px;
+
+    flex-shrink: 0;
+
     border: none;
     border-radius: 50%;
+
     background: var(--primary);
     color: white;
+
     font-size: 17px;
     font-weight: 600;
+
     cursor: pointer;
+
     transition:
         transform 0.15s ease;
 }
+
 .profile-btn:active {
     transform: scale(0.88);
 }
+
+
 /* =========================
    ADD TASK
 ========================= */
+
 .add-task {
     display: flex;
     gap: 10px;
+
+    width: 100%;
+
     margin-bottom: 20px;
 }
+
 #taskInput {
     flex: 1;
     min-width: 0;
+
     border: none;
     outline: none;
+
     background: var(--card);
     color: var(--text);
+
     padding: 16px;
+
     border-radius: 16px;
+
     font-size: 15px;
+
     box-shadow:
-        0 3px 12px rgba(0,0,0,0.04);
+        0 3px 12px rgba(0, 0, 0, 0.04);
 }
+
 #taskInput::placeholder {
     color: var(--secondary);
 }
+
 .add-btn {
     width: 52px;
     height: 52px;
+
     flex-shrink: 0;
+
     border: none;
     border-radius: 16px;
+
     background: var(--primary);
     color: white;
+
     font-size: 30px;
+
     cursor: pointer;
+
     transition:
         transform 0.15s ease;
 }
+
 .add-btn:active {
     transform: scale(0.90);
 }
+
+
 /* =========================
    TASK LIST
 ========================= */
+
 #taskList {
+    width: 100%;
+
     display: flex;
     flex-direction: column;
+
     gap: 10px;
 }
+
+
 /* =========================
    SWIPE CONTAINER
 ========================= */
+
 .swipe-container {
     position: relative;
+
+    width: 100%;
+
     overflow: hidden;
+
     border-radius: 18px;
-    width:100%;
+
+    isolation: isolate;
 }
+
+
 /* =========================
    SWIPE BACKGROUND
 ========================= */
+
 .swipe-background {
     position: absolute;
+
     inset: 0;
+
     z-index: 0;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 20px;
+    padding:
+        0 20px;
 
     color: white;
+
     font-size: 14px;
     font-weight: 600;
 
     pointer-events: none;
+
+    user-select: none;
 }
+
 .swipe-complete {
     background: var(--success);
 }
+
 .swipe-delete {
     background: var(--danger);
 }
+
+
 /* =========================
    TASK
 ========================= */
+
 .task {
     position: relative;
+
     z-index: 2;
+
     width: 100%;
+
     display: flex;
     align-items: center;
+
     gap: 12px;
+
     padding: 15px;
+
     background: var(--card);
     color: var(--text);
+
     border-radius: 18px;
+
     box-shadow:
-        0 3px 12px rgba(0,0,0,0.04);
-    transform: translateX(0);
+        0 3px 12px rgba(0, 0, 0, 0.04);
+
+    transform:
+        translate3d(0, 0, 0);
+
     touch-action: pan-y;
+
     user-select: none;
+
     will-change: transform;
+
+    backface-visibility: hidden;
+
+    -webkit-backface-visibility: hidden;
 }
+
 .task-content {
     flex: 1;
+
     min-width: 0;
 }
+
 .task-content p {
     font-size: 16px;
+
     font-weight: 500;
+
     word-break: break-word;
+
+    overflow-wrap: anywhere;
 }
+
 .task-content span {
     display: block;
+
     color: var(--secondary);
+
     font-size: 12px;
+
     margin-top: 4px;
 }
+
+
 /* =========================
    CHECK
 ========================= */
+
 .check {
     width: 26px;
     height: 26px;
+
     flex-shrink: 0;
+
     border-radius: 50%;
+
     border:
         2px solid
         var(--primary);
+
     background: transparent;
+
     color: white;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     cursor: pointer;
+
     font-size: 14px;
 }
+
 .task.completed .check {
     background: var(--primary);
 }
-.task.completed
-.task-content p {
+
+.task.completed .task-content p {
     text-decoration: line-through;
+
     color: var(--secondary);
 }
+
 .task.completed {
     opacity: 0.72;
 }
+
+
 /* =========================
    ACTION BUTTONS
 ========================= */
+
 .actions {
     display: flex;
+
     align-items: center;
+
     gap: 2px;
+
+    flex-shrink: 0;
+
+    position: relative;
+
+    z-index: 3;
 }
+
 .actions button {
     width: 34px;
     height: 34px;
+
+    flex-shrink: 0;
+
     border: none;
+
     border-radius: 10px;
+
     background: transparent;
+
     cursor: pointer;
+
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 .actions button:active {
     background:
-        rgba(128,128,128,0.15);
+        rgba(128, 128, 128, 0.15);
 }
+
 .edit {
     color: var(--primary);
 }
+
 .delete {
     color: var(--danger);
 }
+
 .actions svg {
     width: 19px;
     height: 19px;
+
     fill: none;
+
     stroke: currentColor;
+
     stroke-width: 2;
+
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+
 /* =========================
    EMPTY STATE
 ========================= */
+
 .empty-state {
     text-align: center;
+
     color: var(--secondary);
+
     padding:
         55px
         20px;
 }
+
 .empty-icon {
     width: 60px;
     height: 60px;
+
     margin:
         auto
         auto
         15px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     background: var(--primary);
+
     color: white;
+
     border-radius: 50%;
+
     font-size: 25px;
 }
+
 .empty-state h2 {
     color: var(--text);
+
     margin-bottom: 5px;
 }
+
 .empty-state p {
     font-size: 14px;
 }
+
+
 /* =========================
    FOOTER
 ========================= */
+
 footer {
     text-align: center;
+
     color: var(--secondary);
+
     font-size: 13px;
+
     margin-top: 25px;
 }
+
+
 /* =========================
    MODAL
 ========================= */
+
 .modal {
     position: fixed;
+
     inset: 0;
+
     background:
-        rgba(0,0,0,0.45);
+        rgba(0, 0, 0, 0.45);
+
     display: flex;
+
     align-items: flex-end;
     justify-content: center;
+
     padding: 15px;
+
     z-index: 100;
 }
+
 .hidden {
     display: none !important;
 }
+
 .modal-box {
     width: 100%;
+
     max-width: 500px;
+
     background: var(--card);
+
     color: var(--text);
+
     border-radius:
         26px
         26px
         18px
         18px;
+
     padding: 25px;
+
     position: relative;
+
     box-shadow:
-        0 -5px 30px rgba(0,0,0,0.15);
+        0 -5px 30px
+        rgba(0, 0, 0, 0.15);
 }
+
 .close {
     position: absolute;
+
     right: 18px;
     top: 12px;
+
     width: 35px;
     height: 35px;
+
     border: none;
+
     border-radius: 50%;
+
     background: transparent;
+
     color: var(--secondary);
+
     font-size: 28px;
+
     cursor: pointer;
 }
+
 .modal-box h2 {
     margin-bottom: 22px;
 }
+
 .modal-box label {
     display: block;
+
     color: var(--secondary);
+
     font-size: 13px;
+
     margin-bottom: 7px;
 }
+
 #nameInput {
     width: 100%;
+
     padding: 14px;
+
     border:
         1px solid
         var(--border);
+
     border-radius: 13px;
+
     outline: none;
+
     background: var(--background);
+
     color: var(--text);
+
     font-size: 15px;
+
     margin-bottom: 25px;
 }
+
 .modal-box h3 {
     font-size: 15px;
+
     margin-bottom: 13px;
 }
+
+
 /* =========================
    COLORS
 ========================= */
+
 .colors {
     display: flex;
+
     gap: 12px;
+
     margin-bottom: 25px;
 }
+
 .color {
     width: 34px;
     height: 34px;
+
+    flex-shrink: 0;
+
     border-radius: 50%;
+
     border:
         3px solid
         var(--card);
+
     cursor: pointer;
 }
+
 .color.selected {
     outline:
         2px solid
         var(--text);
+
     outline-offset: 2px;
 }
+
+
 /* =========================
    SAVE
 ========================= */
+
 .save {
     width: 100%;
+
     border: none;
+
     background: var(--primary);
+
     color: white;
+
     padding: 14px;
+
     border-radius: 14px;
+
     font-size: 16px;
+
     font-weight: 600;
+
     cursor: pointer;
 }
+
 .save:active {
     transform: scale(0.98);
 }
+
+
 /* =========================
-   update
+   SECTION TITLE
 ========================= */
 
 .section-title {
     font-size: 14px;
+
     color: var(--secondary);
-    margin: 18px 4px 8px;
+
+    margin:
+        18px
+        4px
+        8px;
+
     font-weight: 600;
 }
 
@@ -479,8 +754,76 @@ footer {
 /* =========================
    DESKTOP
 ========================= */
+
 @media (min-width: 700px) {
+
     .app {
         padding-top: 50px;
     }
+
+}
+
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media (max-width: 380px) {
+
+    .app {
+        padding:
+            20px
+            12px
+            30px;
+    }
+
+    .header h1 {
+        font-size: 28px;
+    }
+
+    .header-actions {
+        gap: 5px;
+    }
+
+    .icon-btn,
+    .profile-btn {
+        width: 39px;
+        height: 39px;
+    }
+
+    #taskInput {
+        padding: 14px;
+
+        font-size: 14px;
+    }
+
+    .add-btn {
+        width: 48px;
+        height: 48px;
+    }
+
+    .task {
+        padding: 13px;
+
+        gap: 9px;
+    }
+
+    .task-content p {
+        font-size: 15px;
+    }
+
+    .actions {
+        gap: 0;
+    }
+
+    .actions button {
+        width: 31px;
+        height: 31px;
+    }
+
+    .actions svg {
+        width: 17px;
+        height: 17px;
+    }
+
 }
