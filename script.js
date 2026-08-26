@@ -662,8 +662,8 @@ function createTaskElement(task) {
     // =========================
 
     addSwipe(
-        taskElement,
-        task
+    container,
+    task
     );
 
 
