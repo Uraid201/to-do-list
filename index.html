@@ -7,122 +7,227 @@
     <title>My Tasks</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
 <main class="app">
-    <!-- Header -->
+
     <header class="header">
+
         <div>
-            <p class="welcome" id="welcome">Welcome 👋</p>
+            <p class="welcome" id="welcome">
+                Welcome 👋
+            </p>
+
             <h1>My Tasks</h1>
         </div>
+
         <div class="header-actions">
-            <!-- Dark Mode -->
+
             <button
                 class="icon-btn"
                 id="darkModeBtn"
                 aria-label="Toggle dark mode">
                 🌙
             </button>
-            <button class="icon-btn" id="sortBtn">
-    ↕
-</button>
-            <!-- Profile -->
+
+            <button
+                class="icon-btn"
+                id="sortBtn"
+                aria-label="Sort tasks">
+                ↕
+            </button>
+
             <button
                 class="profile-btn"
                 id="profileBtn">
                 O
             </button>
+
         </div>
+
     </header>
-    <!-- Add Task -->
+
+
     <section class="add-task">
+
         <input
             id="taskInput"
             type="text"
             placeholder="What needs to be done?"
             autocomplete="off"
         >
+
         <button
             id="addBtn"
             class="add-btn">
             +
         </button>
+
     </section>
-    <!-- Tasks -->
+
+
+    <section class="groups">
+
+        <button
+            class="group-btn active"
+            data-group="unassigned">
+            Unassigned
+        </button>
+
+        <button
+            class="group-btn"
+            data-group="work">
+            💼 Work
+        </button>
+
+        <button
+            class="group-btn"
+            data-group="study">
+            📚 Study
+        </button>
+
+        <button
+            class="group-btn"
+            data-group="family">
+            👨‍👩‍👧 Family
+        </button>
+
+        <button
+            class="group-btn"
+            data-group="personal">
+            👤 Personal
+        </button>
+
+    </section>
+
+
+    <section class="trash-section">
+
+        <button
+            class="trash-btn"
+            id="trashBtn">
+            🗑️ Trash
+        </button>
+
+    </section>
+
+
     <section id="taskList"></section>
-    <!-- Empty State -->
+
+
     <div id="emptyState" class="empty-state">
-        <div class="empty-icon">✓</div>
+
+        <div class="empty-icon">
+            ✓
+        </div>
+
         <h2>No tasks yet</h2>
-        <p>Add your first task.</p>
+
+        <p>
+            Add your first task.
+        </p>
+
     </div>
-    <!-- Footer -->
+
+
     <footer>
-        <span id="taskCount">0 tasks</span>
+
+        <span id="taskCount">
+            0 tasks
+        </span>
+
+        <span class="copyright">
+            by Osama Raaid
+        </span>
+
     </footer>
+
 </main>
-<!-- Profile Modal -->
+
+
 <div
     class="modal hidden"
     id="profileModal">
+
     <div class="modal-box">
+
         <button
             class="close"
             id="closeModal">
             ×
         </button>
+
         <h2>Your Profile</h2>
-        <!-- Name -->
+
         <label for="nameInput">
             Your name
         </label>
+
         <input
             id="nameInput"
             type="text"
             placeholder="Enter your name"
             maxlength="25"
         >
-        <!-- Colors -->
-        <h3>Theme Color</h3>
+
+        <h3>
+            Theme Color
+        </h3>
+
         <div class="colors">
+
             <button
                 class="color"
                 data-color="#007AFF"
                 style="background:#007AFF">
             </button>
+
             <button
                 class="color"
                 data-color="#7C3AED"
                 style="background:#7C3AED">
             </button>
+
             <button
                 class="color"
                 data-color="#16A34A"
                 style="background:#16A34A">
             </button>
+
             <button
                 class="color"
                 data-color="#F97316"
                 style="background:#F97316">
             </button>
+
             <button
                 class="color"
                 data-color="#EC4899"
                 style="background:#EC4899">
             </button>
+
             <button
                 class="color"
                 data-color="#EF4444"
                 style="background:#EF4444">
             </button>
+
         </div>
+
+
         <button
             class="save"
             id="saveProfile">
             Save
         </button>
+
     </div>
+
 </div>
+
+
 <script src="script.js"></script>
+
 </body>
 </html>
