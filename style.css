@@ -9,6 +9,7 @@
     --success: #72D98A;
 }
 
+
 /* =========================
    DARK MODE
 ========================= */
@@ -21,6 +22,7 @@ body.dark {
     --border: #38383A;
 }
 
+
 /* =========================
    RESET
 ========================= */
@@ -31,10 +33,12 @@ body.dark {
     padding: 0;
 }
 
+
 html {
     width: 100%;
     min-height: 100%;
 }
+
 
 body {
     width: 100%;
@@ -57,14 +61,17 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+
 button,
 input {
     font-family: inherit;
 }
 
+
 button {
     -webkit-tap-highlight-color: transparent;
 }
+
 
 /* =========================
    APP
@@ -82,6 +89,7 @@ button {
         35px;
 }
 
+
 /* =========================
    HEADER
 ========================= */
@@ -94,6 +102,7 @@ button {
     margin-bottom: 25px;
 }
 
+
 .welcome {
     color: var(--secondary);
 
@@ -102,11 +111,13 @@ button {
     margin-bottom: 5px;
 }
 
+
 .header h1 {
     font-size: 32px;
 
     letter-spacing: -1px;
 }
+
 
 .header-actions {
     display: flex;
@@ -114,6 +125,7 @@ button {
 
     gap: 8px;
 }
+
 
 /* =========================
    ICON BUTTON
@@ -145,9 +157,11 @@ button {
         background 0.25s ease;
 }
 
+
 .icon-btn:active {
     transform: scale(0.88);
 }
+
 
 /* =========================
    PROFILE
@@ -172,9 +186,11 @@ button {
         transform 0.15s ease;
 }
 
+
 .profile-btn:active {
     transform: scale(0.88);
 }
+
 
 /* =========================
    ADD TASK
@@ -185,8 +201,9 @@ button {
 
     gap: 10px;
 
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 }
+
 
 #taskInput {
     flex: 1;
@@ -208,9 +225,11 @@ button {
         0 3px 12px rgba(0,0,0,0.04);
 }
 
+
 #taskInput::placeholder {
     color: var(--secondary);
 }
+
 
 .add-btn {
     width: 52px;
@@ -232,9 +251,118 @@ button {
         transform 0.15s ease;
 }
 
+
 .add-btn:active {
     transform: scale(0.90);
 }
+
+
+/* =========================
+   GROUPS
+========================= */
+
+.groups {
+    display: flex;
+
+    gap: 8px;
+
+    overflow-x: auto;
+
+    padding:
+        2px
+        2px
+        8px;
+
+    margin-bottom: 5px;
+
+    scrollbar-width: none;
+}
+
+
+.groups::-webkit-scrollbar {
+    display: none;
+}
+
+
+.group-btn {
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 12px;
+
+    padding:
+        9px
+        12px;
+
+    background: var(--card);
+
+    color: var(--secondary);
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.04);
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+.group-btn.active {
+    background: var(--primary);
+
+    color: white;
+}
+
+
+.group-btn:active {
+    transform: scale(0.94);
+}
+
+
+/* =========================
+   TRASH
+========================= */
+
+.trash-section {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-bottom: 10px;
+}
+
+
+.trash-btn {
+    border: none;
+
+    background: transparent;
+
+    color: var(--danger);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    padding:
+        6px
+        4px;
+
+    cursor: pointer;
+
+    opacity: 0.9;
+}
+
+
+.trash-btn:active {
+    transform: scale(0.95);
+}
+
 
 /* =========================
    TASK LIST
@@ -247,6 +375,7 @@ button {
 
     gap: 10px;
 }
+
 
 /* =========================
    SECTION TITLE
@@ -265,6 +394,7 @@ button {
     font-weight: 600;
 }
 
+
 /* =========================
    SWIPE CONTAINER
 ========================= */
@@ -278,6 +408,7 @@ button {
 
     border-radius: 18px;
 }
+
 
 /* =========================
    SWIPE BACKGROUND
@@ -307,9 +438,9 @@ button {
     opacity: 0;
 }
 
+
 /* =========================
    SWIPE RIGHT
-   COMPLETE = LEFT SIDE
 ========================= */
 
 .swipe-complete {
@@ -318,9 +449,9 @@ button {
     justify-content: flex-start;
 }
 
+
 /* =========================
    SWIPE LEFT
-   DELETE = RIGHT SIDE
 ========================= */
 
 .swipe-delete {
@@ -328,6 +459,7 @@ button {
 
     justify-content: flex-end;
 }
+
 
 /* =========================
    TASK
@@ -368,21 +500,30 @@ button {
 
     transition:
         background 0.2s ease,
-        opacity 0.2s ease;
+        opacity 0.2s ease,
+        border 0.2s ease;
 }
 
-/* =========================
-   COMPLETED TASK
-========================= */
 
 .task.completed {
-    opacity: 1;
-    background: #B8E3C1; !important
+    opacity: 0.70;
+
+    background: var(--success);
+
+    color: #1C1C1E;
 }
 
-body.dark .task.completed {
-    background: #315C3B; !important
+
+/* =========================
+   IMPORTANT TASK
+========================= */
+
+.task.important-task {
+    border:
+        1.5px solid
+        rgba(255, 214, 10, 0.55);
 }
+
 
 /* =========================
    TASK CONTENT
@@ -394,6 +535,7 @@ body.dark .task.completed {
     min-width: 0;
 }
 
+
 .task-content p {
     font-size: 16px;
 
@@ -403,6 +545,7 @@ body.dark .task.completed {
 
     line-height: 1.4;
 }
+
 
 .task-content span {
     display: block;
@@ -414,12 +557,28 @@ body.dark .task.completed {
     margin-top: 4px;
 }
 
-.task.completed
-.task-content p {
+
+.task.completed .task-content p {
     text-decoration: line-through;
 
     color: var(--secondary);
 }
+
+
+/* =========================
+   IMPORTANT STAR
+========================= */
+
+.important-star {
+    display: inline-block;
+
+    margin-left: 5px;
+
+    font-size: 13px;
+
+    vertical-align: middle;
+}
+
 
 /* =========================
    CHECK
@@ -455,13 +614,16 @@ body.dark .task.completed {
         transform 0.15s ease;
 }
 
+
 .check:active {
     transform: scale(0.88);
 }
 
+
 .task.completed .check {
     background: var(--primary);
 }
+
 
 /* =========================
    ACTION BUTTONS
@@ -476,6 +638,7 @@ body.dark .task.completed {
 
     flex-shrink: 0;
 }
+
 
 .actions button {
     width: 34px;
@@ -495,10 +658,39 @@ body.dark .task.completed {
     justify-content: center;
 }
 
+
 .actions button:active {
     background:
         rgba(128,128,128,0.15);
 }
+
+
+/* =========================
+   IMPORTANT BUTTON
+========================= */
+
+.important-btn {
+    color: #FFD60A;
+
+    font-size: 17px;
+
+    opacity: 0.35;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.15s ease;
+}
+
+
+.important-btn.active {
+    opacity: 1;
+}
+
+
+.important-btn:active {
+    transform: scale(0.88);
+}
+
 
 /* =========================
    EDIT
@@ -508,6 +700,7 @@ body.dark .task.completed {
     color: var(--primary);
 }
 
+
 /* =========================
    DELETE
 ========================= */
@@ -515,6 +708,62 @@ body.dark .task.completed {
 .delete {
     color: var(--danger);
 }
+
+
+/* =========================
+   TRASH ACTIONS
+========================= */
+
+.restore {
+    color: var(--primary);
+}
+
+
+.permanent-delete {
+    color: var(--danger);
+}
+
+
+.trash-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+}
+
+
+/* =========================
+   EMPTY TRASH
+========================= */
+
+.empty-trash {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: var(--danger);
+
+    color: white;
+
+    padding: 13px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    margin-top: 8px;
+}
+
+
+.empty-trash:active {
+    transform: scale(0.98);
+}
+
 
 /* =========================
    SVG
@@ -535,6 +784,7 @@ body.dark .task.completed {
     stroke-linejoin: round;
 }
 
+
 /* =========================
    EMPTY STATE
 ========================= */
@@ -548,6 +798,7 @@ body.dark .task.completed {
         55px
         20px;
 }
+
 
 .empty-icon {
     width: 60px;
@@ -572,15 +823,18 @@ body.dark .task.completed {
     font-size: 25px;
 }
 
+
 .empty-state h2 {
     color: var(--text);
 
     margin-bottom: 5px;
 }
 
+
 .empty-state p {
     font-size: 14px;
 }
+
 
 /* =========================
    FOOTER
@@ -595,6 +849,18 @@ footer {
 
     margin-top: 25px;
 }
+
+
+.copyright {
+    display: block;
+
+    margin-top: 7px;
+
+    font-size: 11px;
+
+    opacity: 0.65;
+}
+
 
 /* =========================
    MODAL
@@ -619,9 +885,11 @@ footer {
     z-index: 100;
 }
 
+
 .hidden {
     display: none !important;
 }
+
 
 /* =========================
    MODAL BOX
@@ -650,6 +918,7 @@ footer {
         0 -5px 30px rgba(0,0,0,0.15);
 }
 
+
 .close {
     position: absolute;
 
@@ -672,9 +941,11 @@ footer {
     cursor: pointer;
 }
 
+
 .modal-box h2 {
     margin-bottom: 22px;
 }
+
 
 .modal-box label {
     display: block;
@@ -685,6 +956,7 @@ footer {
 
     margin-bottom: 7px;
 }
+
 
 #nameInput {
     width: 100%;
@@ -708,11 +980,13 @@ footer {
     margin-bottom: 25px;
 }
 
+
 .modal-box h3 {
     font-size: 15px;
 
     margin-bottom: 13px;
 }
+
 
 /* =========================
    COLORS
@@ -728,6 +1002,7 @@ footer {
     flex-wrap: wrap;
 }
 
+
 .color {
     width: 34px;
     height: 34px;
@@ -741,6 +1016,7 @@ footer {
     cursor: pointer;
 }
 
+
 .color.selected {
     outline:
         2px solid
@@ -748,6 +1024,7 @@ footer {
 
     outline-offset: 2px;
 }
+
 
 /* =========================
    SAVE
@@ -773,9 +1050,11 @@ footer {
     cursor: pointer;
 }
 
+
 .save:active {
     transform: scale(0.98);
 }
+
 
 /* =========================
    RESPONSIVE
@@ -790,13 +1069,16 @@ footer {
             30px;
     }
 
+
     .header h1 {
         font-size: 28px;
     }
 
+
     .header {
         margin-bottom: 20px;
     }
+
 
     .icon-btn,
     .profile-btn {
@@ -804,32 +1086,37 @@ footer {
         height: 40px;
     }
 
+
     .task {
-        padding: 14px 12px;
+        padding:
+            14px
+            12px;
     }
+
 
     .task-content p {
         font-size: 15px;
     }
+
 
     .actions button {
         width: 32px;
         height: 32px;
     }
 
+
     .swipe-background {
         padding:
             0 16px;
     }
+
 }
 
-/* =========================
-   DESKTOP
-========================= */
 
 @media (min-width: 700px) {
 
     .app {
         padding-top: 50px;
     }
+
 }
