@@ -2,25 +2,50 @@
 // ELEMENTS
 // =========================
 
-const input = document.getElementById("taskInput");
-const addBtn = document.getElementById("addBtn");
+const input =
+    document.getElementById("taskInput");
 
-const taskList = document.getElementById("taskList");
-const taskCount = document.getElementById("taskCount");
-const emptyState = document.getElementById("emptyState");
+const addBtn =
+    document.getElementById("addBtn");
 
-const welcome = document.getElementById("welcome");
-const profileBtn = document.getElementById("profileBtn");
+const taskList =
+    document.getElementById("taskList");
 
-const darkModeBtn = document.getElementById("darkModeBtn");
+const taskCount =
+    document.getElementById("taskCount");
 
-const profileModal = document.getElementById("profileModal");
-const closeModal = document.getElementById("closeModal");
+const emptyState =
+    document.getElementById("emptyState");
 
-const nameInput = document.getElementById("nameInput");
-const saveProfile = document.getElementById("saveProfile");
+const welcome =
+    document.getElementById("welcome");
 
-const sortBtn = document.getElementById("sortBtn");
+const profileBtn =
+    document.getElementById("profileBtn");
+
+const darkModeBtn =
+    document.getElementById("darkModeBtn");
+
+const profileModal =
+    document.getElementById("profileModal");
+
+const closeModal =
+    document.getElementById("closeModal");
+
+const nameInput =
+    document.getElementById("nameInput");
+
+const saveProfile =
+    document.getElementById("saveProfile");
+
+const sortBtn =
+    document.getElementById("sortBtn");
+
+const trashBtn =
+    document.getElementById("trashBtn");
+
+const groupButtons =
+    document.querySelectorAll(".group-btn");
 
 
 // =========================
@@ -43,6 +68,41 @@ let newestFirst = true;
 
 
 // =========================
+// GROUP / VIEW
+// =========================
+
+let selectedGroup = "unassigned";
+
+let trashMode = false;
+
+
+// =========================
+// MIGRATE OLD TASKS
+// =========================
+
+tasks = tasks.map(function (task) {
+
+    return {
+
+        ...task,
+
+        group:
+            task.group || null,
+
+        important:
+            task.important === true,
+
+        deleted:
+            task.deleted === true
+
+    };
+
+});
+
+saveTasks();
+
+
+// =========================
 // SETTINGS
 // =========================
 
@@ -52,8 +112,11 @@ document.documentElement.style.setProperty(
 );
 
 if (darkMode) {
+
     document.body.classList.add("dark");
+
     darkModeBtn.textContent = "☀️";
+
 }
 
 
@@ -76,9 +139,11 @@ function updateWelcome() {
         welcome.textContent =
             "Welcome 👋";
 
-        profileBtn.textContent = "O";
+        profileBtn.textContent =
+            "O";
 
     }
+
 }
 
 
@@ -98,7 +163,9 @@ darkModeBtn.addEventListener(
         );
 
         darkModeBtn.textContent =
-            darkMode ? "☀️" : "🌙";
+            darkMode
+                ? "☀️"
+                : "🌙";
 
         localStorage.setItem(
             "darkMode",
@@ -117,12 +184,91 @@ sortBtn.addEventListener(
     "click",
     function () {
 
-        newestFirst = !newestFirst;
+        newestFirst =
+            !newestFirst;
 
         renderTasks();
 
     }
 );
+
+
+// =========================
+// GROUP SELECT
+// =========================
+
+groupButtons.forEach(
+    function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                trashMode = false;
+
+                groupButtons.forEach(
+                    function (item) {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+                button.classList.add(
+                    "active"
+                );
+
+                selectedGroup =
+                    button.dataset.group;
+
+                updateAddButton();
+
+                renderTasks();
+
+            }
+        );
+
+    }
+);
+
+
+// =========================
+// TRASH
+// =========================
+
+trashBtn.addEventListener(
+    "click",
+    function () {
+
+        trashMode = true;
+
+        groupButtons.forEach(
+            function (item) {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+        renderTasks();
+
+    }
+);
+
+
+// =========================
+// ADD BUTTON TEXT
+// =========================
+
+function updateAddButton() {
+
+    addBtn.textContent = "+";
+
+}
 
 
 // =========================
@@ -133,7 +279,8 @@ profileBtn.addEventListener(
     "click",
     function () {
 
-        nameInput.value = username;
+        nameInput.value =
+            username;
 
         profileModal.classList.remove(
             "hidden"
@@ -159,7 +306,10 @@ profileModal.addEventListener(
     "click",
     function (event) {
 
-        if (event.target === profileModal) {
+        if (
+            event.target ===
+            profileModal
+        ) {
 
             profileModal.classList.add(
                 "hidden"
@@ -191,6 +341,7 @@ document
 
             }
 
+
             button.addEventListener(
                 "click",
                 function () {
@@ -208,6 +359,7 @@ document
                         primaryColor
                     );
 
+
                     document
                         .querySelectorAll(".color")
                         .forEach(
@@ -219,6 +371,7 @@ document
 
                             }
                         );
+
 
                     button.classList.add(
                         "selected"
@@ -242,9 +395,11 @@ saveProfile.addEventListener(
         const name =
             nameInput.value.trim();
 
+
         if (name) {
 
-            username = name;
+            username =
+                name;
 
             localStorage.setItem(
                 "username",
@@ -252,6 +407,7 @@ saveProfile.addEventListener(
             );
 
         }
+
 
         updateWelcome();
 
@@ -272,9 +428,13 @@ function addTask() {
     const text =
         input.value.trim();
 
-    if (!text) {
+
+    if (!text || trashMode) {
+
         return;
+
     }
+
 
     const task = {
 
@@ -282,9 +442,19 @@ function addTask() {
 
         text: text,
 
-        completed: false
+        completed: false,
+
+        group:
+            selectedGroup === "unassigned"
+                ? null
+                : selectedGroup,
+
+        important: false,
+
+        deleted: false
 
     };
+
 
     tasks.push(task);
 
@@ -307,7 +477,9 @@ input.addEventListener(
     "keydown",
     function (event) {
 
-        if (event.key === "Enter") {
+        if (
+            event.key === "Enter"
+        ) {
 
             addTask();
 
@@ -318,6 +490,54 @@ input.addEventListener(
 
 
 // =========================
+// FILTER TASKS
+// =========================
+
+function getFilteredTasks() {
+
+    if (trashMode) {
+
+        return tasks.filter(
+            function (task) {
+
+                return task.deleted === true;
+
+            }
+        );
+
+    }
+
+
+    return tasks.filter(
+        function (task) {
+
+            if (task.deleted) {
+
+                return false;
+
+            }
+
+
+            if (
+                selectedGroup ===
+                "unassigned"
+            ) {
+
+                return !task.group;
+
+            }
+
+
+            return task.group ===
+                selectedGroup;
+
+        }
+    );
+
+}
+
+
+// =========================
 // RENDER TASKS
 // =========================
 
@@ -325,45 +545,69 @@ function renderTasks() {
 
     taskList.innerHTML = "";
 
+
+    const filteredTasks =
+        getFilteredTasks();
+
+
+    if (trashMode) {
+
+        renderTrash(
+            filteredTasks
+        );
+
+        updateFooter();
+
+        return;
+
+    }
+
+
     const activeTasks =
-        tasks.filter(function (task) {
+        filteredTasks.filter(
+            function (task) {
 
-            return !task.completed;
+                return !task.completed;
 
-        });
+            }
+        );
 
 
     const completedTasks =
-        tasks.filter(function (task) {
+        filteredTasks.filter(
+            function (task) {
 
-            return task.completed;
+                return task.completed;
 
-        });
-
-
-    activeTasks.sort(function (a, b) {
-
-        return newestFirst
-            ? b.id - a.id
-            : a.id - b.id;
-
-    });
+            }
+        );
 
 
-    completedTasks.sort(function (a, b) {
+    activeTasks.sort(
+        function (a, b) {
 
-        return newestFirst
-            ? b.id - a.id
-            : a.id - b.id;
+            return newestFirst
+                ? b.id - a.id
+                : a.id - b.id;
 
-    });
+        }
+    );
 
 
-    // =========================
-    // ACTIVE
-    // =========================
+    completedTasks.sort(
+        function (a, b) {
 
-    if (activeTasks.length > 0) {
+            return newestFirst
+                ? b.id - a.id
+                : a.id - b.id;
+
+        }
+    );
+
+
+    if (
+        activeTasks.length > 0
+    ) {
 
         const title =
             document.createElement("h3");
@@ -374,25 +618,27 @@ function renderTasks() {
         title.textContent =
             "Active Tasks";
 
-        taskList.appendChild(title);
+        taskList.appendChild(
+            title
+        );
 
 
-        activeTasks.forEach(function (task) {
+        activeTasks.forEach(
+            function (task) {
 
-            taskList.appendChild(
-                createTaskElement(task)
-            );
+                taskList.appendChild(
+                    createTaskElement(task)
+                );
 
-        });
+            }
+        );
 
     }
 
 
-    // =========================
-    // COMPLETED
-    // =========================
-
-    if (completedTasks.length > 0) {
+    if (
+        completedTasks.length > 0
+    ) {
 
         const title =
             document.createElement("h3");
@@ -403,16 +649,20 @@ function renderTasks() {
         title.textContent =
             "Completed";
 
-        taskList.appendChild(title);
+        taskList.appendChild(
+            title
+        );
 
 
-        completedTasks.forEach(function (task) {
+        completedTasks.forEach(
+            function (task) {
 
-            taskList.appendChild(
-                createTaskElement(task)
-            );
+                taskList.appendChild(
+                    createTaskElement(task)
+                );
 
-        });
+            }
+        );
 
     }
 
@@ -431,13 +681,12 @@ function createTaskElement(task) {
     const container =
         document.createElement("div");
 
+
     container.className =
         "swipe-container";
 
 
     container.innerHTML = `
-
-        <!-- SWIPE ONLY -->
 
         <div class="
             swipe-background
@@ -455,11 +704,10 @@ function createTaskElement(task) {
         </div>
 
 
-        <!-- ACTUAL TASK -->
-
         <div class="
             task
             ${task.completed ? "completed" : ""}
+            ${task.important ? "important-task" : ""}
         ">
 
             <button
@@ -475,13 +723,20 @@ function createTaskElement(task) {
 
                 <p>
                     ${escapeHTML(task.text)}
+
+                    ${
+                        task.important
+                            ? '<span class="important-star">⭐</span>'
+                            : ""
+                    }
+
                 </p>
 
                 <span>
                     ${
                         task.completed
                             ? "Completed"
-                            : "Today"
+                            : getGroupName(task.group)
                     }
                 </span>
 
@@ -489,6 +744,14 @@ function createTaskElement(task) {
 
 
             <div class="actions">
+
+                <button
+                    class="important-btn ${task.important ? "active" : ""}"
+                    aria-label="Important"
+                    title="Important">
+                    ⭐
+                </button>
+
 
                 <button
                     class="edit"
@@ -542,19 +805,25 @@ function createTaskElement(task) {
 
 
     const taskElement =
-        container.querySelector(".task");
+        container.querySelector(
+            ".task"
+        );
 
 
     const completeBackground =
-        container.querySelector(".swipe-complete");
+        container.querySelector(
+            ".swipe-complete"
+        );
 
 
     const deleteBackground =
-        container.querySelector(".swipe-delete");
+        container.querySelector(
+            ".swipe-delete"
+        );
 
 
     // =========================
-    // CHECK BUTTON
+    // CHECK
     // =========================
 
     taskElement
@@ -563,15 +832,30 @@ function createTaskElement(task) {
             "click",
             function () {
 
-                // فقط نغير الحالة
-                // بدون أي Swipe Background
-
                 task.completed =
                     !task.completed;
 
                 saveTasks();
 
                 renderTasks();
+
+            }
+        );
+
+
+    // =========================
+    // IMPORTANT
+    // =========================
+
+    taskElement
+        .querySelector(".important-btn")
+        .addEventListener(
+            "click",
+            function () {
+
+                toggleImportant(
+                    task.id
+                );
 
             }
         );
@@ -613,7 +897,7 @@ function createTaskElement(task) {
 
 
     // =========================
-    // DELETE BUTTON
+    // DELETE
     // =========================
 
     taskElement
@@ -622,7 +906,9 @@ function createTaskElement(task) {
             "click",
             function () {
 
-                deleteTask(task.id);
+                deleteTask(
+                    task.id
+                );
 
             }
         );
@@ -646,18 +932,393 @@ function createTaskElement(task) {
 
 
 // =========================
-// DELETE TASK
+// TRASH RENDER
+// =========================
+
+function renderTrash(tasksInTrash) {
+
+    if (
+        tasksInTrash.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const title =
+        document.createElement("h3");
+
+    title.className =
+        "section-title";
+
+    title.textContent =
+        "Deleted Tasks";
+
+    taskList.appendChild(
+        title
+    );
+
+
+    tasksInTrash.sort(
+        function (a, b) {
+
+            return newestFirst
+                ? b.id - a.id
+                : a.id - b.id;
+
+        }
+    );
+
+
+    tasksInTrash.forEach(
+        function (task) {
+
+            const container =
+                document.createElement("div");
+
+            container.className =
+                "swipe-container";
+
+
+            container.innerHTML = `
+
+                <div class="task">
+
+                    <div class="task-content">
+
+                        <p>
+                            ${escapeHTML(task.text)}
+
+                            ${
+                                task.important
+                                    ? '<span class="important-star">⭐</span>'
+                                    : ""
+                            }
+
+                        </p>
+
+                        <span>
+                            ${
+                                getGroupName(task.group)
+                            }
+                        </span>
+
+                    </div>
+
+
+                    <div class="
+                        actions
+                        trash-actions
+                    ">
+
+                        <button
+                            class="restore"
+                            aria-label="Restore task">
+                            ↩️
+                        </button>
+
+                        <button
+                            class="permanent-delete"
+                            aria-label="Delete permanently">
+                            🗑️
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+
+
+            const taskElement =
+                container.querySelector(
+                    ".task"
+                );
+
+
+            taskElement
+                .querySelector(".restore")
+                .addEventListener(
+                    "click",
+                    function () {
+
+                        restoreTask(
+                            task.id
+                        );
+
+                    }
+                );
+
+
+            taskElement
+                .querySelector(".permanent-delete")
+                .addEventListener(
+                    "click",
+                    function () {
+
+                        permanentlyDeleteTask(
+                            task.id
+                        );
+
+                    }
+                );
+
+
+            taskList.appendChild(
+                container
+            );
+
+        }
+    );
+
+
+    const emptyTrash =
+        document.createElement("button");
+
+    emptyTrash.className =
+        "empty-trash";
+
+    emptyTrash.textContent =
+        "Delete All Permanently";
+
+
+    emptyTrash.addEventListener(
+        "click",
+        function () {
+
+            if (
+                tasksInTrash.length === 0
+            ) {
+
+                return;
+
+            }
+
+
+            const confirmed =
+                confirm(
+                    "Delete all deleted tasks permanently?"
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            tasks =
+                tasks.filter(
+                    function (task) {
+
+                        return !task.deleted;
+
+                    }
+                );
+
+
+            saveTasks();
+
+            renderTasks();
+
+        }
+    );
+
+
+    taskList.appendChild(
+        emptyTrash
+    );
+
+}
+
+
+// =========================
+// GROUP NAME
+// =========================
+
+function getGroupName(group) {
+
+    if (!group) {
+
+        return "Unassigned";
+
+    }
+
+
+    const names = {
+
+        work: "💼 Work",
+
+        study: "📚 Study",
+
+        family: "👨‍👩‍👧 Family",
+
+        personal: "👤 Personal"
+
+    };
+
+
+    return names[group] || "Unassigned";
+
+}
+
+
+// =========================
+// DELETE TO TRASH
 // =========================
 
 function deleteTask(id) {
 
+    const task =
+        tasks.find(
+            function (item) {
+
+                return item.id === id;
+
+            }
+        );
+
+
+    if (!task) {
+
+        return;
+
+    }
+
+
+    task.deleted = true;
+
+    saveTasks();
+
+    renderTasks();
+
+}
+
+
+// =========================
+// RESTORE
+// =========================
+
+function restoreTask(id) {
+
+    const task =
+        tasks.find(
+            function (item) {
+
+                return item.id === id;
+
+            }
+        );
+
+
+    if (!task) {
+
+        return;
+
+    }
+
+
+    task.deleted = false;
+
+    saveTasks();
+
+    renderTasks();
+
+}
+
+
+// =========================
+// PERMANENT DELETE
+// =========================
+
+function permanentlyDeleteTask(id) {
+
+    const confirmed =
+        confirm(
+            "Delete this task permanently?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
     tasks =
-        tasks.filter(function (task) {
+        tasks.filter(
+            function (task) {
 
-            return task.id !== id;
+                return task.id !== id;
 
-        });
+            }
+        );
 
+
+    saveTasks();
+
+    renderTasks();
+
+}
+
+
+// =========================
+// IMPORTANT
+// =========================
+
+function toggleImportant(id) {
+
+    const task =
+        tasks.find(
+            function (item) {
+
+                return item.id === id;
+
+            }
+        );
+
+
+    if (!task || task.deleted) {
+
+        return;
+
+    }
+
+
+    if (!task.important) {
+
+        const importantCount =
+            tasks.filter(
+                function (item) {
+
+                    return (
+                        item.important &&
+                        !item.deleted
+                    );
+
+                }
+            ).length;
+
+
+        if (
+            importantCount >= 3
+        ) {
+
+            alert(
+                "You can have up to 3 important tasks."
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    task.important =
+        !task.important;
 
     saveTasks();
 
@@ -678,14 +1339,13 @@ function addSwipe(
 ) {
 
     let startX = 0;
+
     let startY = 0;
+
     let currentX = 0;
+
     let dragging = false;
 
-
-    // =========================
-    // TOUCH START
-    // =========================
 
     element.addEventListener(
         "touchstart",
@@ -718,16 +1378,14 @@ function addSwipe(
     );
 
 
-    // =========================
-    // TOUCH MOVE
-    // =========================
-
     element.addEventListener(
         "touchmove",
         function (event) {
 
             if (!dragging) {
+
                 return;
+
             }
 
 
@@ -744,8 +1402,6 @@ function addSwipe(
             const deltaY =
                 y - startY;
 
-
-            // Allow normal vertical scrolling
 
             if (
                 Math.abs(deltaY) >
@@ -781,7 +1437,10 @@ function addSwipe(
             const maxDistance = 125;
 
 
-            if (distance > maxDistance) {
+            if (
+                distance >
+                maxDistance
+            ) {
 
                 distance =
                     maxDistance;
@@ -789,7 +1448,10 @@ function addSwipe(
             }
 
 
-            if (distance < -maxDistance) {
+            if (
+                distance <
+                -maxDistance
+            ) {
 
                 distance =
                     -maxDistance;
@@ -801,11 +1463,9 @@ function addSwipe(
                 `translate3d(${distance}px,0,0)`;
 
 
-            // =========================
-            // RIGHT = COMPLETE
-            // =========================
-
-            if (distance > 10) {
+            if (
+                distance > 10
+            ) {
 
                 completeBackground.style.opacity =
                     "1";
@@ -816,11 +1476,9 @@ function addSwipe(
             }
 
 
-            // =========================
-            // LEFT = DELETE
-            // =========================
-
-            else if (distance < -10) {
+            else if (
+                distance < -10
+            ) {
 
                 completeBackground.style.opacity =
                     "0";
@@ -848,16 +1506,14 @@ function addSwipe(
     );
 
 
-    // =========================
-    // TOUCH END
-    // =========================
-
     element.addEventListener(
         "touchend",
         function () {
 
             if (!dragging) {
+
                 return;
+
             }
 
 
@@ -872,11 +1528,9 @@ function addSwipe(
                 "transform 0.22s ease";
 
 
-            // =========================
-            // SWIPE RIGHT
-            // =========================
-
-            if (distance > 90) {
+            if (
+                distance > 90
+            ) {
 
                 completeBackground.style.opacity =
                     "1";
@@ -888,16 +1542,19 @@ function addSwipe(
                     "translate3d(100%,0,0)";
 
 
-                setTimeout(function () {
+                setTimeout(
+                    function () {
 
-                    task.completed =
-                        !task.completed;
+                        task.completed =
+                            !task.completed;
 
-                    saveTasks();
+                        saveTasks();
 
-                    renderTasks();
+                        renderTasks();
 
-                }, 220);
+                    },
+                    220
+                );
 
 
                 return;
@@ -905,11 +1562,9 @@ function addSwipe(
             }
 
 
-            // =========================
-            // SWIPE LEFT
-            // =========================
-
-            if (distance < -90) {
+            if (
+                distance < -90
+            ) {
 
                 completeBackground.style.opacity =
                     "0";
@@ -921,21 +1576,22 @@ function addSwipe(
                     "translate3d(-100%,0,0)";
 
 
-                setTimeout(function () {
+                setTimeout(
+                    function () {
 
-                    deleteTask(task.id);
+                        deleteTask(
+                            task.id
+                        );
 
-                }, 220);
+                    },
+                    220
+                );
 
 
                 return;
 
             }
 
-
-            // =========================
-            // CANCEL
-            // =========================
 
             element.style.transform =
                 "translate3d(0,0,0)";
@@ -972,26 +1628,92 @@ function saveTasks() {
 
 function updateFooter() {
 
+    const visibleTasks =
+        getFilteredTasks();
+
+
     const total =
-        tasks.length;
+        visibleTasks.length;
 
 
     const completed =
-        tasks.filter(function (task) {
+        visibleTasks.filter(
+            function (task) {
 
-            return task.completed;
+                return task.completed;
 
-        }).length;
+            }
+        ).length;
 
 
-    taskCount.textContent =
-        `${total} tasks • ${completed} completed`;
+    if (trashMode) {
+
+        taskCount.textContent =
+            `${total} deleted`;
+
+    } else {
+
+        taskCount.textContent =
+            `${total} tasks • ${completed} completed`;
+
+    }
 
 
     emptyState.style.display =
         total === 0
             ? "block"
             : "none";
+
+
+    if (trashMode) {
+
+        const title =
+            emptyState.querySelector("h2");
+
+        const paragraph =
+            emptyState.querySelector("p");
+
+
+        if (title) {
+
+            title.textContent =
+                "Trash is empty";
+
+        }
+
+
+        if (paragraph) {
+
+            paragraph.textContent =
+                "Deleted tasks will appear here.";
+
+        }
+
+    } else {
+
+        const title =
+            emptyState.querySelector("h2");
+
+        const paragraph =
+            emptyState.querySelector("p");
+
+
+        if (title) {
+
+            title.textContent =
+                "No tasks yet";
+
+        }
+
+
+        if (paragraph) {
+
+            paragraph.textContent =
+                "Add your first task.";
+
+        }
+
+    }
 
 }
 
@@ -1018,5 +1740,7 @@ function escapeHTML(text) {
 // =========================
 
 updateWelcome();
+
+updateAddButton();
 
 renderTasks();
