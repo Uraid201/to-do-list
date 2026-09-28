@@ -1120,3 +1120,32 @@ footer {
     }
 
 }
+
+
+/* PWA / Mobile App Fix */
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    touch-action: manipulation;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Prevent iPhone zoom when typing */
+input,
+textarea,
+select,
+button {
+    font-size: 16px;
+}
+
+/* Prevent text selection / long-press zoom */
+button,
+input,
+textarea {
+    -webkit-tap-highlight-color: transparent;
+}
