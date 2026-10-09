@@ -19,44 +19,38 @@
 </head>
 
 <body>
+    <!-- Intro Screen -->
+<div id="introScreen">
+    <div class="intro-content">
+        <h1 id="introTitle">My Tasks.</h1>
+        <p id="introCredit">by Osama Raaid</p>
+    </div>
+</div>
 
 <main class="app">
 
-    <header class="header">
+  <header class="header">
 
-        <div>
-            <p class="welcome" id="welcome">
-                Welcome 👋
-            </p>
+    <div>
+        <p class="welcome" id="welcome">
+            Welcome 👋
+        </p>
 
-            <h1>My Tasks</h1>
-        </div>
+        <h1>My Tasks</h1>
+    </div>
 
-        <div class="header-actions">
+    <div class="header-actions">
 
-            <button
-                class="icon-btn"
-                id="darkModeBtn"
-                aria-label="Toggle dark mode">
-                🌙
-            </button>
+        <button
+            class="menu-btn"
+            id="menuBtn"
+            aria-label="Open menu">
+            ☰
+        </button>
 
-            <button
-                class="icon-btn"
-                id="sortBtn"
-                aria-label="Sort tasks">
-                ↕
-            </button>
+    </div>
 
-            <button
-                class="profile-btn"
-                id="profileBtn">
-                O
-            </button>
-
-        </div>
-
-    </header>
+</header>
 
 
     <section class="add-task">
@@ -109,18 +103,14 @@
             👤 Personal
         </button>
 
-    </section>
-
-
-    <section class="trash-section">
-
-        <button
-            class="trash-btn"
-            id="trashBtn">
-            🗑️ Trash
+        <button class="create-group-btn" id="createGroupBtn">
+        <span>＋</span>
+        <span>Create Group</span>
         </button>
 
     </section>
+
+
 
 
     <section id="taskList"></section>
@@ -148,17 +138,160 @@
         </span>
 
         <span class="copyright">
-            by Osama Raaid
+            By Osama Raaid
         </span>
 
     </footer>
 
 </main>
+<!-- APP DRAWER -->
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<aside class="app-drawer" id="appDrawer">
+
+    <div class="drawer-header">
+
+        <div>
+            <p class="drawer-small">My Tasks</p>
+            <h2>Menu</h2>
+        </div>
+
+        <button
+            class="drawer-close"
+            id="drawerClose"
+            aria-label="Close menu">
+            ×
+        </button>
+
+    </div>
 
 
-<div
-    class="modal hidden"
-    id="profileModal">
+    <div class="drawer-content">
+
+        <button
+            class="drawer-item"
+            id="profileBtn">
+
+            <span class="drawer-icon">👤</span>
+
+            <span class="drawer-text">
+                Profile
+            </span>
+
+        </button>
+
+
+        <button
+            class="drawer-item"
+            id="themesBtn">
+
+            <span class="drawer-icon">🎨</span>
+
+            <span class="drawer-text">
+                Themes
+            </span>
+
+        </button>
+
+
+        <button
+            class="drawer-item"
+            id="darkModeBtn">
+
+            <span class="drawer-icon">🌙</span>
+
+            <span
+                class="drawer-text"
+                id="darkModeText">
+                Dark Mode
+            </span>
+
+        </button>
+
+
+        <button
+            class="drawer-item"
+            id="sortBtn">
+
+            <span class="drawer-icon">↕</span>
+
+            <span class="drawer-text">
+                Sort Tasks
+            </span>
+
+        </button>
+
+
+        <button
+            class="drawer-item"
+            id="languageBtn">
+
+            <span class="drawer-icon">🌐</span>
+
+            <span class="drawer-text">
+                Language
+            </span>
+
+        </button>
+
+
+        <button
+            class="drawer-item danger-item"
+            id="trashBtn">
+
+            <span class="drawer-icon">🗑️</span>
+
+            <span class="drawer-text">
+                Trash
+            </span>
+
+        </button>
+
+    </div>
+
+
+    <div class="drawer-footer">
+        <span>To Do</span>
+        <span>v2.0.0</span>
+    </div>
+
+</aside>
+
+
+
+    
+    <div class="group-modal" id="groupModal">
+    <div class="group-modal-content">
+
+        <button class="modal-close"  id="groupModalClose">×</button>
+
+        <h2>Create Group</h2>
+
+        <label for="groupName">Group name</label>
+        <input
+            type="text"
+            id="groupName"
+            placeholder="e.g. Gym"
+            maxlength="30"
+        >
+
+        <label for="groupEmoji">Emoji</label>
+        <input
+            type="text"
+            id="groupEmoji"
+            placeholder="e.g. 🏋️"
+            maxlength="2"
+        >
+
+        <button class="save-group-btn" id="saveGroupBtn">
+            Create
+        </button>
+
+    </div>
+</div>
+
+   <div class="modal hidden" id="profileModal">
 
     <div class="modal-box">
 
@@ -168,19 +301,19 @@
             ×
         </button>
 
-        <h2>Your Profile</h2>
+       <h2 id="profileModalTitle">Your Profile</h2>
 
-        <label for="nameInput">
-            Your name
-        </label>
+       <div id="profileFields">
+    <label for="nameInput">Your name</label>
 
-        <input
-            id="nameInput"
-            type="text"
-            placeholder="Enter your name"
-            maxlength="25"
-        >
-
+    <input
+        id="nameInput"
+        type="text"
+        placeholder="Enter your name"
+        maxlength="25"
+    >
+</div>
+       <div id="themeFields"
         <h3>
             Theme Color
         </h3>
@@ -223,7 +356,29 @@
                 style="background:#EF4444">
             </button>
 
+
+            <button
+                class="color"
+                data-color="#44c7ef"
+                style="background:#44c7ef">
+            </button>
+
+            <button
+                class="color"
+                data-color="#d7ec19"
+                style="background:#d7ec19">
+            </button>
+
+             <button
+                class="color"
+                data-color="#f9047e"
+                style="background:#f9047e">
+            </button>
+
         </div>
+
+
+    </div>
 
 
         <button
@@ -231,7 +386,6 @@
             id="saveProfile">
             Save
         </button>
-
     </div>
 
 </div>
