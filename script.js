@@ -201,46 +201,7 @@ try {
 
 
 
-// =========================
-// APP DRAWER
-// =========================
-/*/
-function openDrawer() {
 
-    appDrawer.classList.add("open");
-
-    drawerOverlay.classList.add("open");
-
-}
-
-
-function closeDrawer() {
-
-    appDrawer.classList.remove("open");
-
-    drawerOverlay.classList.remove("open");
-
-}
-
-
-menuBtn.addEventListener(
-    "click",
-    openDrawer
-);
-
-
-drawerClose.addEventListener(
-    "click",
-    closeDrawer
-);
-
-
-drawerOverlay.addEventListener(
-    "click",
-    closeDrawer
-);
-
-/*/
 
 // =========================
 // THEMES
