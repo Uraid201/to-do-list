@@ -2401,8 +2401,6 @@ renderTasks();// =========================
 // ELEMENTS
 // =========================
 
-const input =
-    document.getElementById("taskInput");
 
 const addBtn =
     document.getElementById("addBtn");
